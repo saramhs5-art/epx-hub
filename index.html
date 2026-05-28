@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPX 대치점 허브</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=DM+Mono:wght@500&display=swap');
+:root{
+  --bg:#0d0d10;--s1:#15151b;--s2:#1d1d25;--s3:#25252f;
+  --line:rgba(255,255,255,0.06);--line2:rgba(255,255,255,0.1);
+  --txt:#eee;--t2:#888;--t3:#444;
+  --c1:#3ecf8e;--c2:#60a5fa;--c3:#f59e0b;--c4:#a78bfa;
+  --c5:#f87171;--c6:#34d399;--c7:#fb923c;--c8:#e879f9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt);font-size:13px}
+.app{display:flex;flex-direction:column;height:100vh}
+
+/* TOP */
+.top{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--s1);border-bottom:1px solid var(--line2);flex-shrink:0}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-ic{width:28px;height:28px;border-radius:7px;background:var(--c1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:#041a0d;letter-spacing:-.3px}
+.logo-name{font-size:13px;font-weight:700}
+.logo-sub{font-size:10px;color:var(--t3)}
+.top-r{display:flex;align-items:center;gap:8px}
+.search-wrap{position:relative}
+.search{background:var(--s2);border:1px solid var(--line2);border-radius:7px;padding:6px 10px 6px 30px;color:var(--txt);font-size:12px;font-family:inherit;width:220px;outline:none}
+.search:focus{border-color:var(--c1)}
+.search-ic{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:13px}
+.datechip{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:4px 8px}
+
+/* BODY */
+.body{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:160px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--line2);padding:10px 0;overflow-y:auto}
+.sb-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:0 12px;margin:10px 0 3px}
+.nav{display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .12s}
+.nav:hover{color:var(--txt);background:var(--s2)}
+.nav.on{color:var(--c1);border-left-color:var(--c1);background:rgba(62,207,142,.07);font-weight:500}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:18px 20px}
+.page{display:none}.page.on{display:block}
+
+/* PAGE HEADER */
+.ph{margin-bottom:16px;display:flex;align-items:flex-end;justify-content:space-between}
+.pt{font-size:17px;font-weight:700}
+.ps{font-size:11px;color:var(--t3);margin-top:2px}
+.cnt-badge{font-size:11px;color:var(--t2);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:3px 9px}
+
+/* SECTION */
+.sec{margin-bottom:20px}
+.sec-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* FILE GRID */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.fcard{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:11px 13px;cursor:pointer;transition:all .12s;display:flex;align-items:flex-start;gap:10px;text-decoration:none}
+.fcard:hover{border-color:var(--line2);background:var(--s2);transform:translateY(-1px)}
+.fcard-ic{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.fcard-body{flex:1;min-width:0}
+.fcard-name{font-size:13px;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard-meta{font-size:10px;color:var(--t3);margin-top:2px}
+.fcard-badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;margin-top:3px;font-weight:500}
+
+/* STUDENT LIST */
+.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+.scard{background:var(--s1);border:1px solid var(--line2);border-radius:8px;padding:9px 11px;cursor:pointer;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all .12s}
+.scard:hover{background:var(--s2);transform:translateY(-1px)}
+.scard-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.scard-info{flex:1;min-width:0}
+.scard-name{font-size:12px;font-weight:500;color:var(--txt)}
+.scard-meta{font-size:10px;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scard-manager{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500;margin-top:2px;display:inline-block}
+
+/* MANAGER SECTION */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:6px}
+.mcard{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:11px 13px}
+.mcard-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.mcard-dot{width:10px;height:10px;border-radius:50%}
+.mcard-name{font-size:13px;font-weight:600}
+.mcard-cnt{font-size:10px;color:var(--t3);margin-left:auto}
+.mcard-students{display:flex;flex-wrap:wrap;gap:3px}
+.ms-chip{font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer;transition:opacity .1s}
+.ms-chip:hover{opacity:.7}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+
+/* EMPTY */
+.empty{text-align:center;padding:30px;color:var(--t3);font-size:12px}
+
+/* OVERVIEW GRID */
+.ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.ov-card{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:13px 14px;cursor:pointer;transition:all .12s}
+.ov-card:hover{background:var(--s2)}
+.ov-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.ov-val{font-size:24px;font-weight:700;line-height:1;margin-bottom:3px}
+.ov-sub{font-size:10px;color:var(--t2)}
+
+/* QUICK LINKS */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px}
+.qcard{background:var(--s1);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:8px;transition:all .12s}
+.qcard:hover{background:var(--s2)}
+.qcard-ic{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.qcard-name{font-size:12px;font-weight:500;color:var(--txt)}
+.qcard-desc{font-size:10px;color:var(--t3);margin-top:1px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="top">
+  <div class="logo">
+    <div class="logo-ic">EPX</div>
+    <div>
+      <div class="logo-name">에듀플렉스 대치점 허브</div>
+      <div class="logo-sub">All Files · All Teams · One Place</div>
+    </div>
+  </div>
+  <div class="top-r">
+    <div class="search-wrap">
+      <span class="search-ic">🔍</span>
+      <input class="search" id="search-input" placeholder="파일, 학생, 매니저 검색..." oninput="doSearch(this.value)">
+    </div>
+    <div class="datechip" id="date-chip">--</div>
+  </div>
+</div>
+
+<div class="body">
+<div class="sidebar">
+  <div class="sb-label">메인</div>
+  <div class="nav on" onclick="go('overview',this)"><span class="nav-dot" style="background:var(--c1)"></span>전체 허브</div>
+
+  <div class="sb-label">운영 파일</div>
+  <div class="nav" onclick="go('ops',this)"><span class="nav-dot" style="background:var(--c2)"></span>일정·운영</div>
+  <div class="nav" onclick="go('visit',this)"><span class="nav-dot" style="background:var(--c3)"></span>학부모 상담</div>
+  <div class="nav" onclick="go('indiv',this)"><span class="nav-dot" style="background:var(--c4)"></span>개별지도</div>
+  <div class="nav" onclick="go('dc',this)"><span class="nav-dot" style="background:var(--c5)"></span>DC 코치</div>
+
+  <div class="sb-label">학생</div>
+  <div class="nav" onclick="go('students',this)"><span class="nav-dot" style="background:var(--c6)"></span>단관표</div>
+  <div class="nav" onclick="go('managers',this)"><span class="nav-dot" style="background:var(--c7)"></span>매니저별 보기</div>
+
+  <div class="sb-label">재무·기록</div>
+  <div class="nav" onclick="go('finance',this)"><span class="nav-dot" style="background:var(--c8)"></span>재무·회비</div>
+  <div class="nav" onclick="go('docs',this)"><span class="nav-dot" style="background:var(--t2)"></span>보고서·회의록</div>
+</div>
+
+<div class="content">
+
+<!-- ══ OVERVIEW ══ -->
+<div id="p-overview" class="page on">
+  <div class="ph">
+    <div><div class="pt">전체 허브</div><div class="ps">에듀플렉스 대치점 모든 파일 · 카테고리별 정리</div></div>
+  </div>
+
+  <!-- 지점 일정 캘린더 -->
+  <div class="sec" style="margin-bottom:18px">
+    <div class="sec-title" style="margin-bottom:10px">
+      📅 지점 일정
+      <span style="margin-left:auto;display:flex;gap:6px">
+        <button onclick="changeMonth(-1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:5px;padding:2px 9px;cursor:pointer;font-family:inherit;font-size:11px">‹</button>
+        <span id="cal-month-label" style="font-size:11px;color:var(--txt);font-weight:500;min-width:80px;text-align:center;padding-top:2px"></span>
+        <button onclick="changeMonth(1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:5px;padding:2px 9px;cursor:pointer;font-family:inherit;font-size:11px">›</button>
+        <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:5px;padding:2px 10px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600">+ 일정 추가</button>
+      </span>
+    </div>
+
+    <!-- 범례 -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FF8C42"></div>개인</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#A78BFA"></div>본사</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#34D399"></div>업무·회의</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#60A5FA"></div>학부모 내방</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FB7185"></div>마감</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FBBF24"></div>이벤트</div>
+      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#F87171"></div>공휴일</div>
+    </div>
+
+    <!-- 캘린더 그리드 -->
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:10px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);background:var(--s2)">
+        <div style="padding:7px;text-align:center;font-size:10px;color:#f87171;font-weight:500">일</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">월</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">화</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">수</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">목</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">금</div>
+        <div style="padding:7px;text-align:center;font-size:10px;color:#60a5fa;font-weight:500">토</div>
+      </div>
+      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr)"></div>
+    </div>
+  </div>
+
+  <!-- 일정 추가 모달 -->
+  <div id="event-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center">
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;padding:20px;width:340px;max-width:90vw">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px" id="modal-title">일정 추가</div>
+      <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:8px;outline:none">
+      <input id="ev-text" type="text" placeholder="일정 내용" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:8px;outline:none">
+      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:14px;outline:none">
+        <option value="ops">업무·회의</option>
+        <option value="deadline">마감</option>
+        <option value="visit">학부모 내방</option>
+        <option value="personal">개인 (연차·반차)</option>
+        <option value="hq">본사 일정</option>
+        <option value="event">이벤트·행사</option>
+        <option value="holiday">공휴일</option>
+      </select>
+      <div style="display:flex;gap:8px">
+        <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600">저장</button>
+        <button onclick="closeModal()" style="flex:1;background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px">취소</button>
+      </div>
+      <div id="modal-delete-btn" style="display:none;margin-top:8px">
+        <button onclick="deleteEvent()" style="width:100%;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px">이 일정 삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ov-grid">
+    <div class="ov-card" onclick="go('students',document.querySelector('.nav:nth-of-type(6)'))">
+      <div class="ov-label">관리 학생</div>
+      <div class="ov-val" style="color:var(--c6)">100+</div>
+      <div class="ov-sub">1관 · 2관 전체</div>
+    </div>
+    <div class="ov-card" onclick="go('ops',document.querySelector('.nav:nth-of-type(3)'))">
+      <div class="ov-label">운영 파일</div>
+      <div class="ov-val" style="color:var(--c2)">12</div>
+      <div class="ov-sub">일정·상담·시간표</div>
+    </div>
+    <div class="ov-card" onclick="go('indiv',document.querySelector('.nav:nth-of-type(5)'))">
+      <div class="ov-label">개별지도 파일</div>
+      <div class="ov-val" style="color:var(--c4)">6</div>
+      <div class="ov-sub">시간표·DB·순회</div>
+    </div>
+    <div class="ov-card" onclick="go('finance',document.querySelector('.nav:nth-of-type(8)'))">
+      <div class="ov-label">재무 파일</div>
+      <div class="ov-val" style="color:var(--c8)">4</div>
+      <div class="ov-sub">장부·회비내역</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">⚡ 자주 쓰는 파일 빠른 접근</div>
+    <div class="quick-grid">
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1eLBXjviF8LT2iisBbgzd9aWbuhx9BDnJ-uiQVvKFMXo/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📅</div>
+        <div><div class="qcard-name">대치점 일정표</div><div class="qcard-desc">월별 일정 · 본관·2관</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/18IGGdJpiV-YP-DK2rwZQEpVErlWK5U0NEQ5ueJPc_HU/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
+        <div><div class="qcard-name">1관 상담예약시트</div><div class="qcard-desc">학부모 내방 기록</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/15_W2fioOYUait3G4AVVTE0S54eHyIPAWyqBGmwu_s8o/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
+        <div><div class="qcard-name">2관 상담예약시트</div><div class="qcard-desc">2관 내방 기록</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1o01QDma1CaFKwFvS8mI5_xwUg8VBpOuve-F3uW7VY8A/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📋</div>
+        <div><div class="qcard-name">1관 관리 페이지</div><div class="qcard-desc">매니저·학생·링크 허브</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1UN-xYv-ZGXwFPZyiF8FJ4Q5c69GRFpPr-959XZzr9ZM/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">⏰</div>
+        <div><div class="qcard-name">2026 개별지도 시간표</div><div class="qcard-desc">전체 시간표</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1t7iS56XbhoG5rGfvBVkFKEsdfT-Ph_-8lfjcofDPoRY/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📊</div>
+        <div><div class="qcard-name">일일시간표</div><div class="qcard-desc">DC 개별지도 일일</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1gTHj0heYZL9hxWL6Yh-9bKmKiA9d27vT_tWR8GmuSvU/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📈</div>
+        <div><div class="qcard-name">개별지도 주간현황</div><div class="qcard-desc">1관 주간 현황</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1HOJDYIzfwuhgfmRfRw8sqMRw_SHvyDmbTmcOxk3oyLM/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">🔄</div>
+        <div><div class="qcard-name">학습실 순회시트</div><div class="qcard-desc">순회 기록</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1LIBTJWfIA3SO7Gmq3DaFNnwPI7YzgX-xwDMngUTx328/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">👨‍🏫</div>
+        <div><div class="qcard-name">DC 코치 스케줄</div><div class="qcard-desc">근무 스케줄 게시용</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1arN4-Sq5FQSQXBXfLTSBmMYQmSiHQerZCEIXyvPosjw/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">💰</div>
+        <div><div class="qcard-name">2026년 회원 장부</div><div class="qcard-desc">재무</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1R-DP-YygmAVPCuD2hqK5fWAUifU-68nvxm2lEMPuopg/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📆</div>
+        <div><div class="qcard-name">주말 관리 양식</div><div class="qcard-desc">매주 금요일 확인</div></div>
+      </a>
+      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1tQFgaOtt_blIkA_pyq4cKh1yfczBjX53ygVHi7BkNtk/edit" target="_blank">
+        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">👨‍🏫</div>
+        <div><div class="qcard-name">튜터 DB</div><div class="qcard-desc">튜터 데이터베이스</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title">📁 폴더 카테고리</div>
+    <div class="fgrid">
+      <div class="fcard" onclick="go('students',document.querySelectorAll('.nav')[5])">
+        <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">👤</div>
+        <div class="fcard-body"><div class="fcard-name">개별지도관리</div><div class="fcard-meta">매니저별 학생 개별 파일 100+</div></div>
+      </div>
+      <div class="fcard" onclick="go('indiv',document.querySelectorAll('.nav')[4])">
+        <div class="fcard-ic" style="background:rgba(167,139,250,.12);color:var(--c4)">📖</div>
+        <div class="fcard-body"><div class="fcard-name">교재분석</div><div class="fcard-meta">교재 분석 자료</div></div>
+      </div>
+      <div class="fcard" onclick="go('students',document.querySelectorAll('.nav')[5])">
+        <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📂</div>
+        <div class="fcard-body"><div class="fcard-name">대치_학생관리</div><div class="fcard-meta">학생 데이터 종합</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">☀️</div>
+        <div class="fcard-body"><div class="fcard-name">방학관리</div><div class="fcard-meta">썸머·윈터 프로그램</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">📄</div>
+        <div class="fcard-body"><div class="fcard-name">서류 양식 공유</div><div class="fcard-meta">공용 양식 모음</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(232,121,249,.12);color:var(--c8)">📊</div>
+        <div class="fcard-body"><div class="fcard-name">성적관리</div><div class="fcard-meta">성적 추이 관리</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">📝</div>
+        <div class="fcard-body"><div class="fcard-name">시험 대비 자료</div><div class="fcard-meta">모의고사·문제지</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">🚦</div>
+        <div class="fcard-body"><div class="fcard-name">신호등 회의</div><div class="fcard-meta">정기 회의 기록</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">📋</div>
+        <div class="fcard-body"><div class="fcard-name">월간 보고 양식</div><div class="fcard-meta">월간 보고서 양식</div></div>
+      </div>
+      <div class="fcard" onclick="go('ops',document.querySelectorAll('.nav')[2])">
+        <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">📅</div>
+        <div class="fcard-body"><div class="fcard-name">일정</div><div class="fcard-meta">지점 일정표</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(167,139,250,.12);color:var(--c4)">🎯</div>
+        <div class="fcard-body"><div class="fcard-name">전략보고서</div><div class="fcard-meta">매니저별 전략 보고서</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">📊</div>
+        <div class="fcard-body"><div class="fcard-name">주간/팀/포트</div><div class="fcard-meta">주간보고·팀관리</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">🏫</div>
+        <div class="fcard-body"><div class="fcard-name">지점 스터디</div><div class="fcard-meta">스터디 자료</div></div>
+      </div>
+      <div class="fcard" onclick="go('ops',document.querySelectorAll('.nav')[2])">
+        <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">⚙️</div>
+        <div class="fcard-body"><div class="fcard-name">지점운영</div><div class="fcard-meta">운영 관리</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">🏫</div>
+        <div class="fcard-body"><div class="fcard-name">학교분석</div><div class="fcard-meta">학교별 데이터</div></div>
+      </div>
+      <div class="fcard" onclick="go('visit',document.querySelectorAll('.nav')[3])">
+        <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">👨‍👩‍👧</div>
+        <div class="fcard-body"><div class="fcard-name">학부모관리</div><div class="fcard-meta">학부모 데이터</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📈</div>
+        <div class="fcard-body"><div class="fcard-name">학생관리현황</div><div class="fcard-meta">현황 종합</div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📚</div>
+        <div class="fcard-body"><div class="fcard-name">학습관리</div><div class="fcard-meta">학습 데이터</div></div>
+      </div>
+      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+        <div class="fcard-ic" style="background:rgba(136,135,128,.12);color:var(--t2)">📝</div>
+        <div class="fcard-body"><div class="fcard-name">회의록</div><div class="fcard-meta">회의 기록</div></div>
+      </div>
+      <div class="fcard" onclick="go('dc',document.querySelectorAll('.nav')[5])">
+        <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">👨‍🏫</div>
+        <div class="fcard-body"><div class="fcard-name">DC 코치 관리</div><div class="fcard-meta">코치 관리 파일</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 일정·운영 ══ -->
+<div id="p-ops" class="page">
+  <div class="ph"><div><div class="pt">일정·운영 파일</div><div class="ps">지점 운영 핵심 파일 모음</div></div></div>
+  <div class="sec"><div class="sec-title">📅 일정 관리</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1eLBXjviF8LT2iisBbgzd9aWbuhx9BDnJ-uiQVvKFMXo/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📅</div>
+      <div class="fcard-body"><div class="fcard-name">대치점 일정표</div><div class="fcard-meta">월별 일정 · 본관·2관 통합</div><span class="fcard-badge" style="background:rgba(62,207,142,.15);color:var(--c1)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1RytZIMwAijiVEr91_oQkJhZ0yd7BZw5L91bHc6K1ntw/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">🗓️</div>
+      <div class="fcard-body"><div class="fcard-name">대치2관_학사일정</div><div class="fcard-meta">2관 학사 일정</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1a6Bb79mKYIG8BGVY71Y4wAmX9qCl8bgM_3d9_5Ji3fA/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">📚</div>
+      <div class="fcard-body"><div class="fcard-name">학사일정/부교재</div><div class="fcard-meta">학사일정 및 부교재</div></div>
+    </a>
+  </div></div>
+  <div class="sec"><div class="sec-title">⚙️ 지점 운영</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1o01QDma1CaFKwFvS8mI5_xwUg8VBpOuve-F3uW7VY8A/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">🏠</div>
+      <div class="fcard-body"><div class="fcard-name">대치 1관 관리 페이지</div><div class="fcard-meta">1관 전체 관리 허브</div><span class="fcard-badge" style="background:rgba(245,158,11,.15);color:var(--c3)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1R-DP-YygmAVPCuD2hqK5fWAUifU-68nvxm2lEMPuopg/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📆</div>
+      <div class="fcard-body"><div class="fcard-name">대치_주말 관리 양식</div><div class="fcard-meta">매주 금요일 확인 필수</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1HOJDYIzfwuhgfmRfRw8sqMRw_SHvyDmbTmcOxk3oyLM/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">🔄</div>
+      <div class="fcard-body"><div class="fcard-name">학습실 순회시트</div><div class="fcard-meta">학습실 순회 기록</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1wma6Qp45jk0PNcp574-UhVwGUkRzVU2jWqPXD2h_DOQ/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">☀️</div>
+      <div class="fcard-body"><div class="fcard-name">방학 관리사항 공유</div><div class="fcard-meta">윈터스쿨 출석부 등</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1epzg61GEmFS_YuVMcNO43Qrh3FmjvzH3UcNDQbkK6Kc/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(136,135,128,.15);color:var(--t2)">🔑</div>
+      <div class="fcard-body"><div class="fcard-name">공용계정</div><div class="fcard-meta">공용 계정 정보</div></div>
+    </a>
+    <a class="fcard" href="https://drive.google.com/drive/folders/1Dn3K67hVGVrR9DiEUdkNSMKsc6_3t3IP" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📹</div>
+      <div class="fcard-body"><div class="fcard-name">매니저 메뉴얼</div><div class="fcard-meta">영상 메뉴얼 (부재시 참고)</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1AOi7qRuvSzFCTgZg6ORGR1FFJGfFQnRsoQa_pToYjKM/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">🔗</div>
+      <div class="fcard-body"><div class="fcard-name">리퍼 공유사항</div><div class="fcard-meta">리퍼 관련 공유</div></div>
+    </a>
+  </div></div>
+</div>
+
+<!-- ══ 학부모 상담 ══ -->
+<div id="p-visit" class="page">
+  <div class="ph"><div><div class="pt">학부모 상담·내방</div><div class="ps">상담 예약 · 내방 기록 · 관리</div></div></div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/18IGGdJpiV-YP-DK2rwZQEpVErlWK5U0NEQ5ueJPc_HU/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
+      <div class="fcard-body"><div class="fcard-name">대치_상담예약시트 (1관)</div><div class="fcard-meta">1관 학부모 내방 · 상담 기록 전체</div><span class="fcard-badge" style="background:rgba(96,165,250,.15);color:var(--c2)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/15_W2fioOYUait3G4AVVTE0S54eHyIPAWyqBGmwu_s8o/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
+      <div class="fcard-body"><div class="fcard-name">대치2관_상담예약시트</div><div class="fcard-meta">2관 학부모 내방 기록</div><span class="fcard-badge" style="background:rgba(96,165,250,.15);color:var(--c2)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/11XbqlZxZUBqpdLMdtdRYNUXNFzdJSyLXxBv7ZUGHz9c/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📋</div>
+      <div class="fcard-body"><div class="fcard-name">상담관리 시트</div><div class="fcard-meta">학부모 상담 관리</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- ══ 개별지도 ══ -->
+<div id="p-indiv" class="page">
+  <div class="ph"><div><div class="pt">개별지도 파일</div><div class="ps">시간표 · 주간현황 · 순회 · 튜터 관리</div></div></div>
+  <div class="sec"><div class="sec-title">📊 핵심 운영</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1UN-xYv-ZGXwFPZyiF8FJ4Q5c69GRFpPr-959XZzr9ZM/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">⏰</div>
+      <div class="fcard-body"><div class="fcard-name">2026 개별지도 시간표</div><div class="fcard-meta">전체 개별지도 시간표</div><span class="fcard-badge" style="background:rgba(167,139,250,.15);color:var(--c4)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1t7iS56XbhoG5rGfvBVkFKEsdfT-Ph_-8lfjcofDPoRY/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📅</div>
+      <div class="fcard-body"><div class="fcard-name">일일시간표</div><div class="fcard-meta">DC 개별지도 일일 운영</div><span class="fcard-badge" style="background:rgba(167,139,250,.15);color:var(--c4)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1gTHj0heYZL9hxWL6Yh-9bKmKiA9d27vT_tWR8GmuSvU/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📈</div>
+      <div class="fcard-body"><div class="fcard-name">대치1_개별지도 주간현황</div><div class="fcard-meta">주간 현황 트래킹</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1DHf7HkQxK3xhFo8OoqKqSIiOirV4POobKS40dL0yr5c/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📖</div>
+      <div class="fcard-body"><div class="fcard-name">대치 1관 개별지도</div><div class="fcard-meta">1관 개별지도 시트</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/17nb57mUVHvEr2JskMcDxKmfw-YZwAQAXJOLhTcFcQ30/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">🔍</div>
+      <div class="fcard-body"><div class="fcard-name">개별지도 순회 시트</div><div class="fcard-meta">순회 기록</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1Qs7DMRL0ZkZsA0QZ3DYx4z_g7odiLk3VK6Wmxv0JPYg/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📋</div>
+      <div class="fcard-body"><div class="fcard-name">단관표</div><div class="fcard-meta">단관표 관리</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1t1SZXa2AmcFC93gU92yrUBAh7fbi44YQnC9--zQEGjM/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">💬</div>
+      <div class="fcard-body"><div class="fcard-name">개별지도 면담 시트</div><div class="fcard-meta">면담 기록</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1dMwgTZlEcLsFMIhB3r3tR9hQn2_letC4uNGj17nk2n0/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">⭐</div>
+      <div class="fcard-body"><div class="fcard-name">체험콤마 관리 시트</div><div class="fcard-meta">체험 콤마 관리</div></div>
+    </a>
+  </div></div>
+  <div class="sec"><div class="sec-title">👨‍🏫 튜터 관리</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1tQFgaOtt_blIkA_pyq4cKh1yfczBjX53ygVHi7BkNtk/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">🗄️</div>
+      <div class="fcard-body"><div class="fcard-name">튜터 DB(최종)</div><div class="fcard-meta">튜터 데이터베이스</div><span class="fcard-badge" style="background:rgba(167,139,250,.15);color:var(--c4)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1ciyPwClExORkRVK0WiO8R8pd3EyL-WF0ls1MJVETj2A/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📅</div>
+      <div class="fcard-body"><div class="fcard-name">튜터 스케줄</div><div class="fcard-meta">튜터 근무 스케줄</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1esLzAzJSDBydKCr0vq5PQocFNWXdGNeg363UubBZ_1I/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📋</div>
+      <div class="fcard-body"><div class="fcard-name">프리미엄 샘플</div><div class="fcard-meta">신규 학생 사본 만들기</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1s_V25rFNwMk3nJHdwKxtGNoGZAH_0wpUDm3iQR-IfVg/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📊</div>
+      <div class="fcard-body"><div class="fcard-name">모고 분석 시트</div><div class="fcard-meta">학생별 사본 만들기</div></div>
+    </a>
+  </div></div>
+</div>
+
+<!-- ══ DC코치 ══ -->
+<div id="p-dc" class="page">
+  <div class="ph"><div><div class="pt">DC 코치 관리</div><div class="ps">DC 코치 스케줄 · 테이블 · 운영</div></div></div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1LIBTJWfIA3SO7Gmq3DaFNnwPI7YzgX-xwDMngUTx328/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">📅</div>
+      <div class="fcard-body"><div class="fcard-name">DC코치 근무 스케줄 표(게시용)</div><div class="fcard-meta">근무 스케줄 게시용</div><span class="fcard-badge" style="background:rgba(248,113,113,.15);color:var(--c5)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1n-PQKN58YLmokDnb_7YqI8onoA3Kx3H5Oo8UHEAS56Q/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">🗂️</div>
+      <div class="fcard-body"><div class="fcard-name">DC테이블</div><div class="fcard-meta">DC 코치 테이블</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- ══ 학생 파일 ══ -->
+<div id="p-students" class="page">
+  <div class="ph">
+    <div><div class="pt">단관표</div><div class="ps">매니저별 담당 학생 · 클릭하면 파일 열림</div></div>
+    <span class="cnt-badge" id="student-count">전체 보기</span>
+  </div>
+
+  <div id="student-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+    <button class="filter-btn on" onclick="filterManager('all',this)">전체</button>
+    <button class="filter-btn" onclick="filterManager('강효M',this)" style="--mc:var(--c3)">강효M</button>
+    <button class="filter-btn" onclick="filterManager('강지M',this)" style="--mc:#ea4335">강지M</button>
+    <button class="filter-btn" onclick="filterManager('이준M',this)" style="--mc:var(--c6)">이준M</button>
+    <button class="filter-btn" onclick="filterManager('안성M',this)" style="--mc:var(--c4)">안성M</button>
+    <button class="filter-btn" onclick="filterManager('정승M',this)" style="--mc:#FFCCFF;color:#333">정승M</button>
+    <button class="filter-btn" onclick="filterManager('김하M',this)" style="--mc:var(--c2)">김하M</button>
+    <button class="filter-btn" onclick="filterManager('윤지M',this)" style="--mc:var(--c1)">윤지M</button>
+    <button class="filter-btn" onclick="filterManager('박가M',this)" style="--mc:#05fafa;color:#333">박가M</button>
+    <button class="filter-btn" onclick="filterManager('정규M',this)" style="--mc:#FF00FF;color:#333">정규M</button>
+  </div>
+  <style>
+  .filter-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--line2);background:var(--s2);color:var(--t2);font-size:11px;cursor:pointer;font-family:inherit;transition:all .12s}
+  .filter-btn.on{background:rgba(62,207,142,.15);border-color:var(--c1);color:var(--c1)}
+  </style>
+  <div class="student-grid" id="student-grid"></div>
+</div>
+
+<!-- ══ 매니저별 ══ -->
+<div id="p-managers" class="page">
+  <div class="ph"><div><div class="pt">매니저별 보기</div><div class="ps">담당 학생 · 배정 현황</div></div></div>
+  <div class="mgrid" id="manager-grid"></div>
+</div>
+
+<!-- ══ 재무 ══ -->
+<div id="p-finance" class="page">
+  <div class="ph"><div><div class="pt">재무·회비</div><div class="ps">장부 · 회비 내역</div></div></div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1arN4-Sq5FQSQXBXfLTSBmMYQmSiHQerZCEIXyvPosjw/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">💰</div>
+      <div class="fcard-body"><div class="fcard-name">2026년 회원 장부</div><div class="fcard-meta">2026년 전체 회원 장부</div><span class="fcard-badge" style="background:rgba(232,121,249,.15);color:var(--c8)">핵심</span></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/18wXs2VF8EDzQjuGuoPXkocTHYnAqfBvCXV_JgYN6y98/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">🧾</div>
+      <div class="fcard-body"><div class="fcard-name">회비내역표</div><div class="fcard-meta">회비 내역</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1pzLn8_f_sDY82imIJ3xQZaZTthMlG5d7flC-IUo7S3s/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">🧾</div>
+      <div class="fcard-body"><div class="fcard-name">대치2관_회비내역표_2025</div><div class="fcard-meta">2관 회비 내역 2025</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/14O7J10AMuljYSLesNP4zHuYamcdTx8RwOd5OAlBX62Q/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(136,135,128,.15);color:var(--t2)">📊</div>
+      <div class="fcard-body"><div class="fcard-name">대치_매출장부_2021년</div><div class="fcard-meta">2021년 매출 기록 (아카이브)</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1Hdns3B5zPaBC7UaS7scWYrvant5FMVsx6LzMz3PGX7w/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">📈</div>
+      <div class="fcard-body"><div class="fcard-name">부관리자 데이터 누적 기록</div><div class="fcard-meta">강효민·여혜윤·박혜승</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- ══ 보고서·회의록 ══ -->
+<div id="p-docs" class="page">
+  <div class="ph"><div><div class="pt">보고서·회의록</div><div class="ps">전략보고서 · 회의록 · 월간보고</div></div></div>
+  <div class="sec"><div class="sec-title">📊 전략보고서</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://drive.google.com/file/d/1VWyy47e3LbZsSokOClN65LYKY0Rg4_7A/view" target="_blank">
+      <div class="fcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📊</div>
+      <div class="fcard-body"><div class="fcard-name">전략보고서_안성균M</div><div class="fcard-meta">최근 수정 · xlsx</div><span class="fcard-badge" style="background:rgba(167,139,250,.15);color:var(--c4)">최근</span></div>
+    </a>
+  </div></div>
+  <div class="sec"><div class="sec-title">📝 회의록</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1jGLe4kZWFDte5ezz--UW1LOLcPjO4x5L/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(136,135,128,.15);color:var(--t2)">📝</div>
+      <div class="fcard-body"><div class="fcard-name">회의록</div><div class="fcard-meta">전체 회의 기록</div></div>
+    </a>
+  </div></div>
+  <div class="sec"><div class="sec-title">📋 학생 관리</div>
+  <div class="fgrid">
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1Qtyhc5USVuUfFAqJE2qKo21XPumKIpdrHaFKSArfE-0/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(52,211,153,.15);color:var(--c6)">📊</div>
+      <div class="fcard-body"><div class="fcard-name">학생관리시트 (2관)</div><div class="fcard-meta">2관 학생 종합 관리</div></div>
+    </a>
+    <a class="fcard" href="https://docs.google.com/spreadsheets/d/1CbOvC5e1Lm0K0qSS3XA0GQq_Ew8O7TK-1z0mpzT8fQ0/edit" target="_blank">
+      <div class="fcard-ic" style="background:rgba(52,211,153,.15);color:var(--c6)">📊</div>
+      <div class="fcard-body"><div class="fcard-name">학생관리시트</div><div class="fcard-meta">학생 관리</div></div>
+    </a>
+  </div></div>
+</div>
+
+</div><!-- content -->
+</div><!-- body -->
+</div><!-- app -->
+
+<script>
+// ── 날짜 ──
+document.getElementById('date-chip').textContent =
+  new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+
+// ── 네비게이션 ──
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
+  if(el) el.classList.add('on');
+}
+
+// ── 학생 데이터 ──
+const students = [
+  // 강효M (노란색 #fbbc04)
+  {name:'김건우',manager:'강효M',mc:'#fbbc04',school:'양재고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1IvTHvzCRHyGfbfHjdqUVWZTQfuXXI6VjzU4FxgpX2LI/edit'},
+  {name:'서유민',manager:'강효M',mc:'#fbbc04',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1aIKv4eLjK_Hm-JUhrEAJ4kg0mZ9MHh8218SwQHSVT1k/edit'},
+  {name:'윤현희',manager:'강효M',mc:'#fbbc04',school:'풍문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1KJuMTRNPiBlf2YmDw8UQQsITeV-TK_ne_8m4DIYe0J0/edit'},
+  // 강지M (빨강 #ea4335)
+  {name:'김나윤',manager:'강지M',mc:'#ea4335',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1gSXKyITZXXH5hGNnuncuWAju2tuIg4vcvlk2s5k5tvk/edit'},
+  {name:'김수아',manager:'강지M',mc:'#ea4335',school:'서울미고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1zAOhrXZjcFAA_c4YEmPOUtbmUYMxeoYF2Qe1_plkEaI/edit'},
+  {name:'김예찬',manager:'강지M',mc:'#ea4335',school:'단대부중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1JZ4JvoGxjQAbZ15DilaXZIrVAAPm_4AcUVVhtWMjimI/edit'},
+  {name:'김은지',manager:'강지M',mc:'#ea4335',school:'잠실여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1y60VMQxna4VkMEddWKDjoIBPuNith2LBnzyGrvlMdGg/edit'},
+  {name:'김지우',manager:'강지M',mc:'#ea4335',school:'휘문중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1AZd14mpThw87HUapdYYft2d6qWdqp8rwBZ5olSuaivE/edit'},
+  {name:'김효린',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1wiHCP_nHV0gNlnYd1qinF2uyZeRAHv4ZuRHi0a4dxvc/edit'},
+  {name:'박민찬',manager:'강지M',mc:'#ea4335',school:'대치중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1MBF9QdTCmvgly3texGY84_0difO-q4hE1YaGvhuRgm4/edit'},
+  {name:'박준혁',manager:'강지M',mc:'#ea4335',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1XOi4jMUomJquE5xSJcGVG-1WZoRJEQtNkgDUZk68ywg/edit'},
+  {name:'서효민',manager:'강지M',mc:'#ea4335',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/10livZi3GIjCcyh2_J0sgqX3-5os3RYWsZ0XVTT7nTZ8/edit'},
+  {name:'서휘율',manager:'강지M',mc:'#ea4335',school:'언주중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1p49pLpJW-SgU8LdWb2oJe4UU-165pOV_F8vhrw9Ps7c/edit'},
+  {name:'송채민',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AxOTLP-XIRnGZdzQMlUg3GOqwlwXiSfBXNkPeuR565s/edit'},
+  {name:'이도현',manager:'강지M',mc:'#ea4335',school:'휘문중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1L7r5IK6o8gIKVorEzgLYTNz32MO8Oj9Grik4dokH19I/edit'},
+  {name:'이채원',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1iK1LyuGMxjuTInjDiPIL2JA-BLy_JilKoxZE6_VdH-w/edit'},
+  {name:'이하린',manager:'강지M',mc:'#ea4335',school:'진선여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1CIBEXTikfOCsJkqOBoxNRF4q3G53Rp27oyyQ0-XOcBM/edit'},
+  {name:'서민혁',manager:'강지M',mc:'#ea4335',school:'휘문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/10DXY-7KKhuodWndr2tn0-y84XiRxM3MdGQHjBOsgGUw/edit'},
+  {name:'장예원',manager:'강지M',mc:'#ea4335',school:'은광여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1FY7ZdEsoc_OItVrnfB0dRwhee_U--yfmpT9G-UOVzGY/edit'},
+  {name:'전축복',manager:'강지M',mc:'#ea4335',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1EnYao-4KgJ1MIQ6bIyvOZ25NLVkpmkOZ6IGyzYJNDrI/edit'},
+  {name:'정하윤',manager:'강지M',mc:'#ea4335',school:'은성중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1taMlGLchfmPxkeG_GRXD0VwY6v3XXdpm9oI33mhoZhk/edit'},
+  {name:'조원우',manager:'강지M',mc:'#ea4335',school:'개포고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gE4n2-cl4HCPMxAV_n9kD4ar1fpZZmBpOIYGqnF8p_0/edit'},
+  {name:'조윤진',manager:'강지M',mc:'#ea4335',school:'수서중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1FBJOZSBIEr069zFL12ljvddg1TUh32XRYzIKaFgNOo8/edit'},
+  {name:'조은솔',manager:'강지M',mc:'#ea4335',school:'대왕중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1NB0PKA-bbQ1DArzsBJaiicMIEByY0WYIi3LfA-SdEP4/edit'},
+  {name:'최지원',manager:'강지M',mc:'#ea4335',school:'개포고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1omoOw1B1_vNMAzBW6ui1vv0oNEGNQSsJWiEJtSWhpIY/edit'},
+  // 이준M (#99ff99)
+  {name:'김수아A',manager:'이준M',mc:'#22c55e',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1ErMkje_Fi4kSFLTABKRhQqIX6YGQgelhId3rEb7mvUI/edit'},
+  {name:'김정수',manager:'이준M',mc:'#22c55e',school:'중산고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1lZUmnM1ItEIfqzlVnUYbe_bLj-19l11BviO3IJU9bRg/edit'},
+  {name:'김태오',manager:'이준M',mc:'#22c55e',school:'압구정중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1OzmbI2DkIx-qv_mimcGGNa2Q_Wd6lOuip3-2kBcfWRk/edit'},
+  {name:'백지우',manager:'이준M',mc:'#22c55e',school:'언남고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1J9s0gvZg2RgVVj7NCLY1398UxemlFa-AfxeyZClknfA/edit'},
+  {name:'서현우',manager:'이준M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/13TDSzUwp65FnUvBuivBlgORsRZJmdpOfrzlA52Spq8E/edit'},
+  {name:'신주호',manager:'이준M',mc:'#22c55e',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wu75m7tR1TX9UNGXT3YlVids1NYOZ8HobAUvprbDs24/edit'},
+  {name:'오수빈',manager:'이준M',mc:'#22c55e',school:'중대부고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1DDBdmVTRG9zuaY3bmS195hGfR00f1uZmooPVa1kEfpA/edit'},
+  {name:'윤동은',manager:'이준M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/11hCXHzAeGDNdAB1r43QOKzqj1tCdOWS7E0seH2LONI8/edit'},
+  {name:'이하람',manager:'이준M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1xpbztQTjmJ0d7tBRGN3lIMTSbR23vgLEnKYQ_i5VakA/edit'},
+  {name:'최세민',manager:'이준M',mc:'#22c55e',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1xE128yM8nE9dsiXgFl0EgQvRAjEptP2OYqZIBhiXX1M/edit'},
+  {name:'최지웅',manager:'이준M',mc:'#22c55e',school:'경기고',grade:'3',url:'https://docs.google.com/spreadsheets/d/16HhbFEBdY5BRcZQ-05RHUnRCsyI199QUuiBn38xK5IU/edit'},
+  {name:'허지승',manager:'이준M',mc:'#22c55e',school:'영동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1X2SYg-3rSvSOewqs4dNOSD9Nu0APKrwheumT60nhCGk/edit'},
+  {name:'황인영',manager:'이준M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1mKCktMnWIjBIZcKJrKatKllRpFX38Mdv4LgTym49rVE/edit'},
+  // 안성M (#8A00FF)
+  {name:'강호윤',manager:'안성M',mc:'#8A00FF',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1rTx3YoNSlwv9xy2aj9SIZXBLtJQlAASfeYaeREu-gQg/edit'},
+  {name:'김예서',manager:'안성M',mc:'#8A00FF',school:'압구정고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LoSNEJaBN6nFfUaoBVjLPtaO8aa_mGNPyKg_40OnT04/edit'},
+  {name:'남지원',manager:'안성M',mc:'#8A00FF',school:'대치중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1o5aRbUeSVGzeZ7jbRuRlek08uIe_z0zHav9Dwz7vxC8/edit'},
+  {name:'류예준',manager:'안성M',mc:'#8A00FF',school:'대곡초',grade:'6',url:'https://docs.google.com/spreadsheets/d/1o5lB1HbH3taroPdMi4oGwiRFsw-TGkk2Y3FKKpwbt2Q/edit'},
+  {name:'류제나',manager:'안성M',mc:'#8A00FF',school:'대왕중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1sH_z-ok-bvKQ1gKg8wKaCxkx-5yBmJ6gsS083FUewYk/edit'},
+  {name:'민경한',manager:'안성M',mc:'#8A00FF',school:'단대부고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m1uTL5XqZMNg8dKpzB0K-e2GkzJK6DIFjTTcJWMI-CU/edit'},
+  {name:'박규태',manager:'안성M',mc:'#8A00FF',school:'대청중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1pTivvIigNrfKu7gXjScvWNS2Hupgg828BP3RFa-nG1I/edit'},
+  {name:'박사라',manager:'안성M',mc:'#8A00FF',school:'대청중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1XUgunqLOGyTKk7ymyKR9sbJgq9ant8P0X-6gBRWvreE/edit'},
+  {name:'박시후',manager:'안성M',mc:'#8A00FF',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1h-nnxIRRDohGg1oHfEFtBfscWFC_tW_rX7ZVB4UojLY/edit'},
+  {name:'임은지',manager:'안성M',mc:'#8A00FF',school:'진선여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1dsKUVP-xZgtyDEqnL2WbxsoyJaYFVmPdzrVu4RcatY4/edit'},
+  {name:'정아윤',manager:'안성M',mc:'#8A00FF',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1nOcpXpA3JgTGSBnR104J6kHbIEh3k3DgUeN54n49Jk8/edit'},
+  {name:'채민찬',manager:'안성M',mc:'#8A00FF',school:'개원중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1J-NG4HYX1E7gIo1oSetRRE1zooqctyBUCQKeXTrBfL0/edit'},
+  {name:'황이안',manager:'안성M',mc:'#8A00FF',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1uCESrBe8xB3IPJDcRW_oJSao68VKZLvEQ-isAMhA58Q/edit'},
+  // 정승M (#FFCCFF)
+  {name:'고다은',manager:'정승M',mc:'#c084fc',school:'문정고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1-3bFYxLZYHmFCPzysXr0VkoupYKFFBuhlzFb-5kpLa8/edit'},
+  {name:'나준기',manager:'정승M',mc:'#c084fc',school:'영동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PvpwFS4aMZJUhFXtBNPH62xi1kUH1zitrroA-LKatiU/edit'},
+  {name:'노현준',manager:'정승M',mc:'#c084fc',school:'경기고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1K9EV9qNZq9pxBQ4OBOF-mwUAW40coof-UzAx4WdgGYY/edit'},
+  {name:'류제희',manager:'정승M',mc:'#c084fc',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wrSUeQLz60g35Pe5_mFXqzAljzjBD5obEQWz1MV4Ino/edit'},
+  {name:'박노아',manager:'정승M',mc:'#c084fc',school:'대곡초',grade:'5',url:'https://docs.google.com/spreadsheets/d/1fUJ4gjX5ecp675wtMfExd5t32DRPjduegRis0xxKCZE/edit'},
+  {name:'성우찬',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Dus3mCpwVROz8ENtMocOY160F6cCv5HWeGhqeYXcnhE/edit'},
+  {name:'손석호',manager:'정승M',mc:'#c084fc',school:'개포중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1z06dpqfnfqzn0uNgbeuPxxE13qughzN7UEm1kiPbCK4/edit'},
+  {name:'송서원',manager:'정승M',mc:'#c084fc',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1oimePufjeftfnanNWQTOMsCRnTZUEVlhaBKyFOUAtrY/edit'},
+  {name:'송이헌',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1QXvDNMHkIhs3NEUYelSszBWM79ejEYoAUXMzJJw8dac/edit'},
+  {name:'안도현',manager:'정승M',mc:'#c084fc',school:'도곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1fLy4jDol4CBmE8EX1spyLM8VBUoNZSmoI5vGSQTeo1k/edit'},
+  {name:'이언록',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LaaQ-LCfWSPSo9T1PfwhQElojCN012eR0ozL1DLvccY/edit'},
+  {name:'이예준',manager:'정승M',mc:'#c084fc',school:'보인고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_-I9TujeTUnQYV6sU7y7pU_uWT5-msyRzLMBSck8R6o/edit'},
+  {name:'전윤재',manager:'정승M',mc:'#c084fc',school:'중동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pz8xdGyyelhVo3cP47B8zA4GY2nBJswIK0SuEiqA25k/edit'},
+  {name:'정기윤',manager:'정승M',mc:'#c084fc',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1aSXx-MQ9D2xo2hOVuWvP6VS5McPcnfSiniUDr1jSfrE/edit'},
+  {name:'정은찬',manager:'정승M',mc:'#c084fc',school:'세종고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_wafY12L43qEYn7HMvCidnGcgsXsakFnzEGFS2YRgkk/edit'},
+  {name:'최성민',manager:'정승M',mc:'#c084fc',school:'경기고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pjNGAITzpPX-cuw8ByleXHvlHv21ngX0N82dBobLDJw/edit'},
+  {name:'최준우',manager:'정승M',mc:'#c084fc',school:'성수고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1RAlIk0l_C-aoH9TC81Rk8waDlL4_8CaxObCLsdNuKt0/edit'},
+  {name:'황유준',manager:'정승M',mc:'#c084fc',school:'언남고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1V59k_A5BTIKUPUiKlliFNRALqaSQE61n9WcV7JTvZLM/edit'},
+  // 김하M (#3C78D8)
+  {name:'김다인',manager:'김하M',mc:'#3C78D8',school:'숙명여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1APQXIhBG25r1YQry2MYiLn4Y4BdI8ftD7Eic7SsgaDw/edit'},
+  {name:'김민기',manager:'김하M',mc:'#3C78D8',school:'대진디자인고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PIAZJiufVJbfWdw2NNOY6rBFiZTNpyc9Le1WQtpi0qw/edit'},
+  {name:'김유찬',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16Ec772K-E2QoeA5rsIgSUk_gbRZiBeH4vk03FM87-Z8/edit'},
+  {name:'김중서',manager:'김하M',mc:'#3C78D8',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1dfv4NVtZ7TzsuBbhK2czWjMvOIsxfMz4feGotJ5D_qc/edit'},
+  {name:'박지환',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AGwMMeI1u5zTmdcdp57YbRfWrbn-dknz7o3gYZJyT9M/edit'},
+  {name:'박하랑',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1YtMjvdFqjIgo75toZCXv9I6s2pDfoBx5_gUpcZOlQvY/edit'},
+  {name:'백승주',manager:'김하M',mc:'#3C78D8',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1jM822kJb6aKakEPPjKVYOkTreIWdl9H_WDKubGsuXos/edit'},
+  {name:'윤준호A',manager:'김하M',mc:'#3C78D8',school:'내곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1czYjDo5jdAnwsw0Fr_DLPBwMM8pE-8jAAqYKhGfM-Y0/edit'},
+  {name:'이서우',manager:'김하M',mc:'#3C78D8',school:'보성고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gAYMMefMv6Z24TvPRRKNCBUereAvAFCqNb0jyfqsuz4/edit'},
+  {name:'이준희',manager:'김하M',mc:'#3C78D8',school:'역삼중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1WK9apFvtmzk6SlffohF9sotZyObkdtf3KWpq5_yEp_U/edit'},
+  {name:'전혜림',manager:'김하M',mc:'#3C78D8',school:'은성중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10uPUmqwE85BFTya-0H2VhFm-MbPVIHF1n-MMgES27cA/edit'},
+  {name:'조하은',manager:'김하M',mc:'#3C78D8',school:'대현초',grade:'5',url:'https://docs.google.com/spreadsheets/d/13Eopi4ZmSVXOT9fCOLdeyMr0vIT_5TrwfddTN0nRJWI/edit'},
+  // 윤지M (#00ba1c)
+  {name:'김서은',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1eChHLXta5Koih6F8mECYz0uivqqNzO6QLU030FTmTsc/edit'},
+  {name:'김세은',manager:'윤지M',mc:'#00ba1c',school:'진선여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1_jMppXahN4Fk4DDQeXexAhCF69uo7HvF5J8wlvOR6hY/edit'},
+  {name:'문도현',manager:'윤지M',mc:'#00ba1c',school:'단대부중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Z1PDBMzDaeQB7AQKbiHvIBmF49V2N3E854bMEPyI3RI/edit'},
+  {name:'성이현',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1nW0MF06BdHgvqrl-3JZDFD4TqqNAJqhylA089RrAZls/edit'},
+  {name:'신서진',manager:'윤지M',mc:'#00ba1c',school:'가원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1qpnm54-2Rigm0omanIPC87gm05Aq8nY6d2B6Fkw_Y9s/edit'},
+  {name:'신재은',manager:'윤지M',mc:'#00ba1c',school:'개포중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m9ano-s-og_aho_rLhKnuNHJQ391MZXz8S0jWs5MvBE/edit'},
+  {name:'윤준호',manager:'윤지M',mc:'#00ba1c',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1b8eygBaI8e1lKuissbBq1Ehi5CPgogIlv581pWunrck/edit'},
+  {name:'이도경',manager:'윤지M',mc:'#00ba1c',school:'영동고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1o3vhDfkSehs21IQJYvgRUmZur_bzv8o6hvJKWZMl754/edit'},
+  {name:'장지수',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1HVwkLw6OuG5DiBzwvw9yYpFVZh8irWEmWJ11Fh6hp5c/edit'},
+  {name:'장재혁',manager:'윤지M',mc:'#00ba1c',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1cb6dRzGTKdu8mluHuzkhixYGshqELQFKwlPHNSW-5Mw/edit'},
+  {name:'최태준',manager:'윤지M',mc:'#00ba1c',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1klg_PmSxQBeaV44cg7y84oYpi8Ifr5jUPxw8QBN269o/edit'},
+  // 박가M (#05fafa)
+  {name:'고가온',manager:'박가M',mc:'#05fafa',school:'구룡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/14fJpaoNVBizXEwCuttWOT-lWlOXRcsx_bpr-CUx-RFM/edit'},
+  {name:'김보민',manager:'박가M',mc:'#05fafa',school:'',grade:'',url:'https://docs.google.com/spreadsheets/d/15xNOrcUX8bsLbEzmpo1Ijuayp7wpBIFw3rA7MftzI4o/edit'},
+  {name:'김예준',manager:'박가M',mc:'#05fafa',school:'현대고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16uUWq5yxn83fC35qIB8DEH74rWX9bl1Qq5JrEFCLal0/edit'},
+  {name:'김효린A',manager:'박가M',mc:'#05fafa',school:'역삼중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SatnWJJ_w7odZes2gyUs2PkPUWwTxebj690kHwvpyuY/edit'},
+  {name:'윤태호',manager:'박가M',mc:'#05fafa',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10I7S-VlwwBgK6MdIznqLT1cqft3duFkJULo7gbE5eS8/edit'},
+  {name:'이규호',manager:'박가M',mc:'#05fafa',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SXysuaUHVjKX0S-R1gTKqOFCGIj31RdSuYXbmv4gBpI/edit'},
+];
+
+let currentFilter = 'all';
+
+function renderStudents(filter, searchQ) {
+  const grid = document.getElementById('student-grid');
+  let filtered = students;
+  if(filter && filter !== 'all') filtered = filtered.filter(s=>s.manager.startsWith(filter.replace('M','')));
+  if(searchQ) filtered = filtered.filter(s=>s.name.includes(searchQ)||s.school.includes(searchQ)||s.manager.includes(searchQ));
+  document.getElementById('student-count').textContent = '총 '+filtered.length+'명';
+  grid.innerHTML = filtered.map(s=>`
+    <a class="scard" href="${s.url}" target="_blank">
+      <div class="scard-dot" style="background:${s.mc}"></div>
+      <div class="scard-info">
+        <div class="scard-name">${s.name}</div>
+        <div class="scard-meta">${s.school} ${s.grade?s.grade+'학년':''}</div>
+        <span class="scard-manager" style="background:${s.mc}22;color:${s.mc}">${s.manager}</span>
+      </div>
+    </a>`).join('');
+}
+
+function filterManager(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderStudents(f, document.getElementById('search-input').value);
+}
+
+// 매니저별 렌더
+function renderManagers() {
+  const managers = {};
+  students.forEach(s=>{
+    if(!managers[s.manager]) managers[s.manager]={color:s.mc,students:[]};
+    managers[s.manager].students.push(s);
+  });
+  document.getElementById('manager-grid').innerHTML = Object.entries(managers).map(([m,d])=>`
+    <div class="mcard">
+      <div class="mcard-head">
+        <div class="mcard-dot" style="background:${d.color}"></div>
+        <div class="mcard-name">${m}</div>
+        <div class="mcard-cnt">${d.students.length}명</div>
+      </div>
+      <div class="mcard-students">
+        ${d.students.map(s=>`<a class="ms-chip" href="${s.url}" target="_blank" style="background:${d.color}22;color:${d.color}">${s.name}</a>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// 검색
+function doSearch(q) {
+  if(q.length > 0) {
+    // 학생 검색이면 학생 페이지로
+    const matches = students.filter(s=>s.name.includes(q)||s.school.includes(q)||s.manager.includes(q));
+    if(matches.length > 0) {
+      go('students', document.querySelectorAll('.nav')[5]);
+      renderStudents('all', q);
+    }
+  } else {
+    renderStudents(currentFilter, '');
+  }
+}
+
+// ── 캘린더 ──────────────────────────────────────────
+const TYPE_COLOR = {
+  personal:'#FF8C42', hq:'#A78BFA', ops:'#34D399',
+  visit:'#60A5FA', deadline:'#FB7185', event:'#FBBF24', holiday:'#F87171'
+};
+const TYPE_NAME = {
+  personal:'개인', hq:'본사', ops:'업무', visit:'내방', deadline:'마감', event:'이벤트', holiday:'공휴일'
+};
+
+// 기본 내장 일정 (드라이브에서 읽어온 5월 일정)
+const DEFAULT_EVENTS = [
+  {id:'d1', date:'2026-05-01', text:'근로자의 날', type:'holiday'},
+  {id:'d2', date:'2026-05-04', text:'지M 연차', type:'personal'},
+  {id:'d3', date:'2026-05-05', text:'어린이날', type:'holiday'},
+  {id:'d4', date:'2026-05-06', text:'신호등 회의 (정기)', type:'ops'},
+  {id:'d5', date:'2026-05-06', text:'선M 예비군훈련', type:'personal'},
+  {id:'d6', date:'2026-05-08', text:'4월 종료 보고서 마감', type:'deadline'},
+  {id:'d7', date:'2026-05-08', text:'개별지도 회의 (내신대비)', type:'ops'},
+  {id:'d8', date:'2026-05-12', text:'지점 마케팅 · 입시 세미나 19:30~', type:'event'},
+  {id:'d9', date:'2026-05-12', text:'오프라인 월례회의', type:'ops'},
+  {id:'d10', date:'2026-05-14', text:'안M HOW TO', type:'personal'},
+  {id:'d11', date:'2026-05-14', text:'학부모 내방상담 마감일', type:'deadline'},
+  {id:'d12', date:'2026-05-19', text:'입시 세미나 (지점 마케팅)', type:'event'},
+  {id:'d13', date:'2026-05-21', text:'신호등 회의', type:'ops'},
+  {id:'d14', date:'2026-05-25', text:'부처님 오신 날 대체 공휴일', type:'holiday'},
+  {id:'d15', date:'2026-05-27', text:'지M · 근M 온보딩2', type:'personal'},
+  {id:'d16', date:'2026-06-04', text:'신호등 회의', type:'ops'},
+  {id:'d17', date:'2026-06-04', text:'6월 모의고사', type:'event'},
+  {id:'d18', date:'2026-06-06', text:'5월 종료 보고서 + 기말고사 전략 보고서 마감', type:'deadline'},
+  {id:'d19', date:'2026-06-11', text:'썸머 프로그램 기획 1차 회의', type:'event'},
+  {id:'d20', date:'2026-06-18', text:'신호등 회의 + 썸머 기획 2차', type:'ops'},
+  {id:'d21', date:'2026-06-26', text:'교재 분석 업로드 마감', type:'deadline'},
+];
+
+let calYear = 2026, calMonth = 5; // 0-indexed: 5 = June → 사용 시 +1
+let editingId = null;
+
+function getEvents() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('epx_events') || '[]');
+    return [...DEFAULT_EVENTS, ...saved];
+  } catch { return DEFAULT_EVENTS; }
+}
+function getSavedEvents() {
+  try { return JSON.parse(localStorage.getItem('epx_events') || '[]'); } catch { return []; }
+}
+
+function renderCalendar() {
+  const now = new Date();
+  const label = `${calYear}년 ${calMonth + 1}월`;
+  document.getElementById('cal-month-label').textContent = label;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const lastDate = new Date(calYear, calMonth + 1, 0).getDate();
+  const events = getEvents();
+
+  let cells = '';
+  // 빈 칸
+  for(let i = 0; i < firstDay; i++) {
+    cells += `<div style="min-height:72px;border:1px solid var(--line);background:var(--bg);opacity:.3"></div>`;
+  }
+
+  for(let d = 1; d <= lastDate; d++) {
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = events.filter(e => e.date === dateStr);
+    const isToday = now.getFullYear()===calYear && now.getMonth()===calMonth && now.getDate()===d;
+    const dow = new Date(calYear, calMonth, d).getDay();
+    const isWeekend = dow === 0 || dow === 6;
+    const dateColor = isToday ? '#34D399' : (dow===0 ? '#F87171' : dow===6 ? '#60A5FA' : 'var(--t3)');
+
+    cells += `<div style="min-height:72px;border:1px solid var(--line);background:${isToday?'rgba(52,211,153,.05)':'var(--s1)'};padding:5px;${isToday?'border-color:rgba(52,211,153,.3);':''}" onclick="openAddEventOnDate('${dateStr}')">
+      <div style="font-size:10px;font-family:'DM Mono',monospace;color:${dateColor};font-weight:${isToday?'700':'400'};margin-bottom:3px">${isToday?'★ ':''}{d}</div>
+      ${dayEvents.slice(0,3).map(e=>`
+        <div onclick="event.stopPropagation();openEditEvent('${e.id}')" style="background:${TYPE_COLOR[e.type]}22;color:${TYPE_COLOR[e.type]};border-left:2px solid ${TYPE_COLOR[e.type]};border-radius:3px;padding:2px 5px;font-size:9px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" title="${e.text}">${e.text}</div>
+      `).join('')}
+      ${dayEvents.length > 3 ? `<div style="font-size:9px;color:var(--t3)">+${dayEvents.length-3}개</div>` : ''}
+    </div>`.replace('{d}', d);
+  }
+
+  document.getElementById('cal-grid').innerHTML = cells;
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if(calMonth > 11) { calMonth = 0; calYear++; }
+  if(calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function openAddEvent() {
+  editingId = null;
+  const now = new Date();
+  document.getElementById('ev-date').value = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  document.getElementById('ev-text').value = '';
+  document.getElementById('ev-type').value = 'ops';
+  document.getElementById('modal-title').textContent = '일정 추가';
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function openAddEventOnDate(dateStr) {
+  editingId = null;
+  document.getElementById('ev-date').value = dateStr;
+  document.getElementById('ev-text').value = '';
+  document.getElementById('ev-type').value = 'ops';
+  document.getElementById('modal-title').textContent = '일정 추가';
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function openEditEvent(id) {
+  const all = getEvents();
+  const ev = all.find(e => e.id === id);
+  if(!ev) return;
+  // 기본 내장 일정은 삭제 불가 (d로 시작)
+  const isDefault = id.startsWith('d');
+  editingId = isDefault ? null : id;
+  document.getElementById('ev-date').value = ev.date;
+  document.getElementById('ev-text').value = ev.text;
+  document.getElementById('ev-type').value = ev.type;
+  document.getElementById('modal-title').textContent = isDefault ? '일정 보기 (기본)' : '일정 수정';
+  document.getElementById('modal-delete-btn').style.display = isDefault ? 'none' : 'block';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function saveEvent() {
+  const date = document.getElementById('ev-date').value;
+  const text = document.getElementById('ev-text').value.trim();
+  const type = document.getElementById('ev-type').value;
+  if(!date || !text) { alert('날짜와 내용을 입력해주세요'); return; }
+
+  const saved = getSavedEvents();
+  if(editingId) {
+    const idx = saved.findIndex(e => e.id === editingId);
+    if(idx !== -1) saved[idx] = {id: editingId, date, text, type};
+  } else {
+    saved.push({id: 'u' + Date.now(), date, text, type});
+  }
+  localStorage.setItem('epx_events', JSON.stringify(saved));
+  closeModal();
+  renderCalendar();
+}
+
+function deleteEvent() {
+  if(!editingId) return;
+  if(!confirm('이 일정을 삭제할까요?')) return;
+  const saved = getSavedEvents().filter(e => e.id !== editingId);
+  localStorage.setItem('epx_events', JSON.stringify(saved));
+  closeModal();
+  renderCalendar();
+}
+
+function closeModal() {
+  document.getElementById('event-modal').style.display = 'none';
+  editingId = null;
+}
+
+// 초기화
+renderCalendar();
+renderStudents('all','');
+renderManagers();
+</script>
+</body>
+</html>
