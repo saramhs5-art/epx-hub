@@ -193,7 +193,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
     <!-- 왼쪽: 캘린더 -->
     <div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
         <div style="display:flex;align-items:center;gap:10px">
           <span id="cal-month-label" style="font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.3px"></span>
           <div style="display:flex;gap:3px">
@@ -201,17 +201,25 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
             <button onclick="changeMonth(1)" style="background:transparent;border:1px solid var(--line2);color:var(--t2);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--t2)'" onmouseout="this.style.borderColor='var(--line2)'">›</button>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px">
-            <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff3e8;color:#c2410c;border:1px solid #fed7aa">개인</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#f3f0ff;color:#6d28d9;border:1px solid #ddd6fe">본사</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe">업무</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#e0f7fa;color:#0e7490;border:1px solid #a5f3fc">내방</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff0f0;color:#b91c1c;border:1px solid #fecaca">마감</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fffbeb;color:#b45309;border:1px solid #fde68a">행사</span>
-            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff0f3;color:#9f1239;border:1px solid #fecdd3">공휴일</span>
-          </div>
-          <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:6px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">+ 추가</button>
+        <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#fff;border-radius:6px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">+ 일정 추가</button>
+      </div>
+
+      <!-- 지점 필터 + 범례 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;gap:5px">
+          <button id="filter-btn-all" onclick="setBranchFilter('all',this)" style="padding:5px 14px;border-radius:20px;border:1.5px solid var(--c1);background:#f0fdf4;color:var(--c1);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">전체</button>
+          <button id="filter-btn-본관" onclick="setBranchFilter('본관',this)" style="padding:5px 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit">본관</button>
+          <button id="filter-btn-2관" onclick="setBranchFilter('2관',this)" style="padding:5px 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit">2관</button>
+          <button id="filter-btn-재종반" onclick="setBranchFilter('재종반',this)" style="padding:5px 14px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit">재종반</button>
+        </div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#fff3e8;color:#c2410c;border:1px solid #fed7aa">개인</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#f3f0ff;color:#6d28d9;border:1px solid #ddd6fe">본사</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe">업무</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#e0f7fa;color:#0e7490;border:1px solid #a5f3fc">내방</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#fff0f0;color:#b91c1c;border:1px solid #fecaca">마감</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#fffbeb;color:#b45309;border:1px solid #fde68a">행사</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#fff0f3;color:#9f1239;border:1px solid #fecdd3">공휴일</span>
         </div>
       </div>
 
@@ -272,6 +280,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
         <option value="전체">전체</option>
         <option value="본관">본관 (1관)</option>
         <option value="2관">2관</option>
+        <option value="재종반">재종반</option>
       </select>
       <div style="display:flex;gap:8px">
         <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:8px;padding:11px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">저장</button>
@@ -788,6 +797,40 @@ let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 let editingId = null;
 let refreshTimer = null;
+let branchFilter = 'all'; // 'all' | '본관' | '2관' | '재종반'
+
+// ── 지점 필터 ─────────────────────────────────────
+function setBranchFilter(branch, el) {
+  branchFilter = branch;
+  document.querySelectorAll('[id^="filter-btn-"]').forEach(b => {
+    b.style.background = 'transparent';
+    b.style.borderWidth = '1px';
+    b.style.borderColor = 'var(--line2)';
+    b.style.color = 'var(--t2)';
+    b.style.fontWeight = '400';
+  });
+  el.style.background = '#f0fdf4';
+  el.style.borderWidth = '1.5px';
+  el.style.borderColor = 'var(--c1)';
+  el.style.color = 'var(--c1)';
+  el.style.fontWeight = '600';
+  renderCalendar();
+}
+
+// 지점 레이블 색상
+const BRANCH_STYLE = {
+  '본관':   'background:#eff6ff;color:#1d4ed8',
+  '2관':    'background:#f0fdf4;color:#15803d',
+  '재종반': 'background:#fdf4ff;color:#7e22ce',
+  '전체':   'background:#f1f5f9;color:#64748b',
+  'all':    'background:#f1f5f9;color:#64748b',
+};
+
+function branchLabel(branch) {
+  if (!branch || branch === 'all' || branch === '전체') return '';
+  const style = BRANCH_STYLE[branch] || 'background:#f1f5f9;color:#64748b';
+  return `<span style="${style};font-size:9px;padding:1px 5px;border-radius:3px;margin-left:3px;font-weight:600">${branch}</span>`;
+}
 
 // ── API 상태 표시 ─────────────────────────────────
 function setApiStatus(ok, msg) {
@@ -829,9 +872,15 @@ function renderCalendar() {
   document.getElementById('cal-month-label').textContent = `${calYear}년 ${calMonth + 1}월`;
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const lastDate = new Date(calYear, calMonth + 1, 0).getDate();
-  const events = getEvents();
-  let cells = '';
 
+  // 지점 필터 적용
+  const events = getEvents().filter(e => {
+    if (branchFilter === 'all') return true;
+    const b = e.branch || '전체';
+    return b === branchFilter || b === '전체' || b === 'all';
+  });
+
+  let cells = '';
   for(let i = 0; i < firstDay; i++) {
     cells += `<div style="min-height:110px;background:#fafafa;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb"></div>`;
   }
@@ -848,11 +897,18 @@ function renderCalendar() {
 
     cells += `<div style="min-height:110px;${cellBorder};background:${cellBg};padding:8px 7px;cursor:pointer;transition:background .1s" onclick="openAddEventOnDate('${dateStr}')" onmouseover="this.style.background='${isToday?'#f0fdf4':'#f9fafb'}'" onmouseout="this.style.background='${cellBg}'">
       <div style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:${numBg};font-size:13px;font-weight:${isToday?'700':'500'};color:${numColor};margin-bottom:5px;font-family:'DM Mono',monospace">${d}</div>
-      ${dayEvents.slice(0,3).map(e=>`<div class="ev-chip ${e.type}" onclick="event.stopPropagation();openEditEvent('${e.id}')" title="${e.text}">${e.text}</div>`).join('')}
+      ${dayEvents.slice(0,3).map(e => {
+        const b = e.branch || '';
+        const showBranch = branchFilter === 'all' && b && b !== '전체' && b !== 'all';
+        const bStyle = {'본관':'background:#eff6ff;color:#1d4ed8','2관':'background:#f0fdf4;color:#15803d','재종반':'background:#fdf4ff;color:#7e22ce'}[b] || '';
+        const bTag = showBranch && bStyle ? `<span style="${bStyle};font-size:9px;padding:1px 4px;border-radius:3px;margin-left:2px;font-weight:600">${b}</span>` : '';
+        return `<div class="ev-chip ${e.type}" onclick="event.stopPropagation();openEditEvent('${e.id}')" title="${e.text}" style="display:flex;align-items:center;justify-content:space-between">${e.text}${bTag}</div>`;
+      }).join('')}
       ${dayEvents.length > 3 ? `<div style="font-size:10px;color:#9ca3af;padding:2px 4px;font-weight:600">+${dayEvents.length-3}개 더</div>` : ''}
     </div>`;
   }
   document.getElementById('cal-grid').innerHTML = cells;
+  renderDeadlinePanel();
 }
 
 function changeMonth(dir) {
