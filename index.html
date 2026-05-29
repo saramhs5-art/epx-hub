@@ -149,6 +149,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
       <input class="search" id="search-input" placeholder="파일, 학생, 매니저 검색..." oninput="doSearch(this.value)">
     </div>
     <div class="datechip" id="date-chip">--</div>
+    <div id="api-status-badge" style="font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #fcd34d;background:#fff7ed;color:#d97706">⚠ API 미연결</div>
+    <button onclick="loadEventsFromSheet()" style="background:transparent;border:1px solid var(--line2);color:var(--t2);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:11px;font-family:inherit" title="새로고침">↺</button>
   </div>
 </div>
 
@@ -170,6 +172,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
   <div class="sb-label">기록</div>
   <div class="nav" onclick="go('finance',this)"><span class="nav-dot" style="background:var(--c8)"></span>회원관리</div>
   <div class="nav" onclick="go('docs',this)"><span class="nav-dot" style="background:var(--t2)"></span>보고서·회의록</div>
+
+  <div class="sb-label">설정</div>
+  <div class="nav" onclick="go('settings',this)"><span class="nav-dot" style="background:var(--t3)"></span>설정 · API 연동</div>
 </div>
 
 <div class="content">
@@ -254,7 +259,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
       <div style="font-size:16px;font-weight:700;margin-bottom:20px;color:var(--txt)" id="modal-title">일정 추가</div>
       <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none;transition:border .12s" onfocus="this.style.borderColor='var(--c1)'" onblur="this.style.borderColor='var(--line2)'">
       <input id="ev-text" type="text" placeholder="일정 내용을 입력하세요" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none;transition:border .12s" onfocus="this.style.borderColor='var(--c1)'" onblur="this.style.borderColor='var(--line2)'">
-      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:20px;outline:none">
+      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none">
         <option value="ops">업무·회의</option>
         <option value="deadline">마감</option>
         <option value="visit">학부모 내방</option>
@@ -262,6 +267,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
         <option value="hq">본사 일정</option>
         <option value="event">이벤트·행사</option>
         <option value="holiday">공휴일</option>
+      </select>
+      <select id="ev-branch" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:20px;outline:none">
+        <option value="전체">전체</option>
+        <option value="본관">본관 (1관)</option>
+        <option value="2관">2관</option>
       </select>
       <div style="display:flex;gap:8px">
         <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:8px;padding:11px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">저장</button>
@@ -594,6 +604,58 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
   </div></div>
 </div>
 
+<!-- ══ 설정 ══ -->
+<div id="p-settings" class="page">
+  <div class="ph"><div><div class="pt">설정</div><div class="ps">시트 연동 · 매니저 · 새로고침</div></div></div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="ch"><div class="ct">📡 시트 연동 API URL</div></div>
+    <div class="cb">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.8">
+        대치점 일정표 스프레드시트에 <strong>Code.gs</strong>를 설치하고 배포한 후 URL을 입력하세요.<br>
+        입력하면 모든 매니저가 실시간으로 같은 일정을 공유합니다.
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input id="settings-api-url" type="text" placeholder="https://script.google.com/macros/s/XXXXX/exec"
+          style="flex:1;background:var(--s2);border:1px solid var(--line2);border-radius:7px;padding:9px 12px;color:var(--txt);font-size:12px;font-family:'DM Mono',monospace;outline:none"
+          value="">
+        <button onclick="saveApiUrl()" style="background:var(--c1);border:none;color:#fff;border-radius:7px;padding:9px 16px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;white-space:nowrap">저장 & 연결</button>
+      </div>
+      <div id="api-status-text" style="font-size:11px;color:var(--t3)"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="ch"><div class="ct">🔄 자동 새로고침</div></div>
+    <div class="cb" style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:13px;color:var(--t2)">주기</span>
+      <select id="refresh-interval" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);padding:7px 10px;border-radius:7px;font-size:12px;font-family:inherit;outline:none" onchange="startAutoRefresh(parseInt(this.value))">
+        <option value="0">사용 안 함</option>
+        <option value="1" selected>1분마다</option>
+        <option value="5">5분마다</option>
+        <option value="10">10분마다</option>
+      </select>
+      <span style="font-size:11px;color:var(--t3)">시트 변경사항을 자동으로 불러옵니다</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct">📋 설치 가이드</div></div>
+    <div class="cb">
+      <div style="font-size:13px;line-height:2.4;color:var(--t2)">
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">1</span>대치점 일정표 스프레드시트 열기</div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">2</span>상단 메뉴 → <strong style="color:var(--txt)">확장 프로그램</strong> → <strong style="color:var(--txt)">Apps Script</strong></div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">3</span><strong style="color:var(--txt)">Code.gs</strong> 파일 내용 전체 복사 → 편집기에 붙여넣기</div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">4</span>상단 <strong style="color:var(--txt)">배포</strong> → <strong style="color:var(--txt)">새 배포</strong> → 유형: 웹 앱</div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">5</span>액세스: <strong style="color:var(--txt)">모든 사용자</strong> → 배포 → URL 복사</div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">6</span>위 입력창에 붙여넣기 → <strong style="color:var(--txt)">저장 & 연결</strong></div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">7</span>일정표 스프레드시트에 <strong style="color:var(--txt)">허브연동</strong> 탭이 자동 생성됨</div>
+        <div><span style="color:var(--c1);font-weight:700;margin-right:10px">8</span>허브연동 탭에 날짜 / 내용 / 타입 / 지점 입력 → 허브 즉시 반영</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- content -->
 </div><!-- body -->
 </div><!-- app -->
@@ -717,53 +779,51 @@ function renderDeadlinePanel() {
   }).join('') + '<div style="height:4px"></div>';
 }
 
-// ── 캘린더 ──────────────────────────────────────────
-const TYPE_COLOR = {
-  personal:'#FF8C42', hq:'#A78BFA', ops:'#34D399',
-  visit:'#60A5FA', deadline:'#FB7185', event:'#FBBF24', holiday:'#F87171'
-};
-const TYPE_NAME = {
-  personal:'개인', hq:'본사', ops:'업무', visit:'내방', deadline:'마감', event:'이벤트', holiday:'공휴일'
-};
+// ── 캘린더 & 시트 연동 ───────────────────────────────
 
-const DEFAULT_EVENTS = [
-  {id:'d1', date:'2026-05-01', text:'근로자의 날', type:'holiday'},
-  {id:'d2', date:'2026-05-04', text:'지M 연차', type:'personal'},
-  {id:'d3', date:'2026-05-05', text:'어린이날', type:'holiday'},
-  {id:'d4', date:'2026-05-06', text:'신호등 회의 (정기)', type:'ops'},
-  {id:'d5', date:'2026-05-06', text:'선M 예비군훈련', type:'personal'},
-  {id:'d6', date:'2026-05-08', text:'4월 종료 보고서 마감', type:'deadline'},
-  {id:'d7', date:'2026-05-08', text:'개별지도 회의 (내신대비)', type:'ops'},
-  {id:'d8', date:'2026-05-12', text:'지점 마케팅 · 입시 세미나 19:30~', type:'event'},
-  {id:'d9', date:'2026-05-12', text:'오프라인 월례회의', type:'ops'},
-  {id:'d10', date:'2026-05-14', text:'안M HOW TO', type:'personal'},
-  {id:'d11', date:'2026-05-14', text:'학부모 내방상담 마감일', type:'deadline'},
-  {id:'d12', date:'2026-05-19', text:'입시 세미나 (지점 마케팅)', type:'event'},
-  {id:'d13', date:'2026-05-21', text:'신호등 회의', type:'ops'},
-  {id:'d14', date:'2026-05-25', text:'부처님 오신 날 대체 공휴일', type:'holiday'},
-  {id:'d15', date:'2026-05-27', text:'지M · 근M 온보딩2', type:'personal'},
-  {id:'d16', date:'2026-06-04', text:'신호등 회의', type:'ops'},
-  {id:'d17', date:'2026-06-04', text:'6월 모의고사', type:'event'},
-  {id:'d18', date:'2026-06-06', text:'5월 종료 보고서 + 기말고사 전략 보고서 마감', type:'deadline'},
-  {id:'d19', date:'2026-06-11', text:'썸머 프로그램 기획 1차 회의', type:'event'},
-  {id:'d20', date:'2026-06-18', text:'신호등 회의 + 썸머 기획 2차', type:'ops'},
-  {id:'d21', date:'2026-06-26', text:'교재 분석 업로드 마감', type:'deadline'},
-];
-
+// API URL — 설정 페이지에서 저장
+let API_URL = localStorage.getItem('epx_api_url') || '';
+let allEvents = []; // 시트에서 불러온 전체 이벤트
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 let editingId = null;
+let refreshTimer = null;
 
-function getEvents() {
+// ── API 상태 표시 ─────────────────────────────────
+function setApiStatus(ok, msg) {
+  const badge = document.getElementById('api-status-badge');
+  if (!badge) return;
+  badge.textContent = msg;
+  badge.style.background = ok ? '#f0fdf4' : '#fff7ed';
+  badge.style.color = ok ? '#059669' : '#d97706';
+  badge.style.borderColor = ok ? '#6ee7b7' : '#fcd34d';
+}
+
+// ── 시트에서 이벤트 불러오기 ─────────────────────
+async function loadEventsFromSheet() {
+  if (!API_URL) {
+    setApiStatus(false, '⚠ API 미연결');
+    return;
+  }
   try {
-    const saved = JSON.parse(localStorage.getItem('epx_events') || '[]');
-    return [...DEFAULT_EVENTS, ...saved];
-  } catch { return DEFAULT_EVENTS; }
-}
-function getSavedEvents() {
-  try { return JSON.parse(localStorage.getItem('epx_events') || '[]'); } catch { return []; }
+    setApiStatus(false, '⟳ 불러오는 중...');
+    const r = await fetch(API_URL + '?action=events');
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    allEvents = data.events || [];
+    const now = new Date();
+    setApiStatus(true, '✓ 연동됨 · ' + now.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
+    renderCalendar();
+    renderDeadlinePanel();
+  } catch(e) {
+    setApiStatus(false, '✗ 오류: ' + e.message);
+    console.error('시트 연동 오류:', e);
+  }
 }
 
+function getEvents() { return allEvents; }
+
+// ── 캘린더 렌더 ──────────────────────────────────
 function renderCalendar() {
   const now = new Date();
   document.getElementById('cal-month-label').textContent = `${calYear}년 ${calMonth + 1}월`;
@@ -793,7 +853,6 @@ function renderCalendar() {
     </div>`;
   }
   document.getElementById('cal-grid').innerHTML = cells;
-  renderDeadlinePanel();
 }
 
 function changeMonth(dir) {
@@ -803,70 +862,106 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
+// ── 모달 열기 ─────────────────────────────────────
 function openAddEvent() {
+  if (!API_URL) { alert('먼저 설정 메뉴에서 API URL을 등록해주세요.'); return; }
   editingId = null;
   const now = new Date();
   document.getElementById('ev-date').value = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   document.getElementById('ev-text').value = '';
   document.getElementById('ev-type').value = 'ops';
+  document.getElementById('ev-branch').value = '전체';
   document.getElementById('modal-title').textContent = '일정 추가';
   document.getElementById('modal-delete-btn').style.display = 'none';
   document.getElementById('event-modal').style.display = 'flex';
 }
 
 function openAddEventOnDate(dateStr) {
+  if (!API_URL) { alert('먼저 설정 메뉴에서 API URL을 등록해주세요.'); return; }
   editingId = null;
   document.getElementById('ev-date').value = dateStr;
   document.getElementById('ev-text').value = '';
   document.getElementById('ev-type').value = 'ops';
+  document.getElementById('ev-branch').value = '전체';
   document.getElementById('modal-title').textContent = '일정 추가';
   document.getElementById('modal-delete-btn').style.display = 'none';
   document.getElementById('event-modal').style.display = 'flex';
 }
 
 function openEditEvent(id) {
-  const all = getEvents();
-  const ev = all.find(e => e.id === id);
-  if(!ev) return;
-  const isDefault = id.startsWith('d');
-  editingId = isDefault ? null : id;
+  const ev = allEvents.find(e => e.id === id);
+  if (!ev) return;
+  editingId = id;
   document.getElementById('ev-date').value = ev.date;
   document.getElementById('ev-text').value = ev.text;
-  document.getElementById('ev-type').value = ev.type;
-  document.getElementById('modal-title').textContent = isDefault ? '일정 보기' : '일정 수정';
-  document.getElementById('modal-delete-btn').style.display = isDefault ? 'none' : 'block';
+  document.getElementById('ev-type').value = ev.type || 'ops';
+  document.getElementById('ev-branch').value = ev.branch || '전체';
+  document.getElementById('modal-title').textContent = '일정 수정';
+  document.getElementById('modal-delete-btn').style.display = 'block';
   document.getElementById('event-modal').style.display = 'flex';
 }
 
-function saveEvent() {
-  const date = document.getElementById('ev-date').value;
-  const text = document.getElementById('ev-text').value.trim();
-  const type = document.getElementById('ev-type').value;
-  if(!date || !text) { alert('날짜와 내용을 입력해주세요'); return; }
-  const saved = getSavedEvents();
-  if(editingId) {
-    const idx = saved.findIndex(e => e.id === editingId);
-    if(idx !== -1) saved[idx] = {id: editingId, date, text, type};
-  } else {
-    saved.push({id: 'u' + Date.now(), date, text, type});
+// ── 저장 (시트에 쓰기) ────────────────────────────
+async function saveEvent() {
+  const date   = document.getElementById('ev-date').value;
+  const text   = document.getElementById('ev-text').value.trim();
+  const type   = document.getElementById('ev-type').value;
+  const branch = document.getElementById('ev-branch').value;
+  if (!date || !text) { alert('날짜와 내용을 입력해주세요'); return; }
+
+  const btn = document.querySelector('#event-modal button[onclick="saveEvent()"]');
+  btn.textContent = '저장 중...'; btn.disabled = true;
+
+  try {
+    const action = editingId ? 'edit' : 'add';
+    const params = new URLSearchParams({ action, date, text, type, branch });
+    if (editingId) params.append('id', editingId);
+    const r = await fetch(API_URL + '?' + params.toString());
+    const data = await r.json();
+    if (!data.success) throw new Error(data.message || '저장 실패');
+    closeModal();
+    await loadEventsFromSheet();
+  } catch(e) {
+    alert('저장 실패: ' + e.message);
+  } finally {
+    btn.textContent = '저장'; btn.disabled = false;
   }
-  localStorage.setItem('epx_events', JSON.stringify(saved));
-  closeModal();
-  renderCalendar();
 }
 
-function deleteEvent() {
-  if(!editingId) return;
-  if(!confirm('이 일정을 삭제할까요?')) return;
-  const saved = getSavedEvents().filter(e => e.id !== editingId);
-  localStorage.setItem('epx_events', JSON.stringify(saved));
-  closeModal();
-  renderCalendar();
+// ── 삭제 (시트에서 제거) ──────────────────────────
+async function deleteEvent() {
+  if (!editingId) return;
+  if (!confirm('이 일정을 삭제할까요?')) return;
+  try {
+    const r = await fetch(`${API_URL}?action=delete&id=${editingId}`);
+    const data = await r.json();
+    if (!data.success) throw new Error(data.message);
+    closeModal();
+    await loadEventsFromSheet();
+  } catch(e) {
+    alert('삭제 실패: ' + e.message);
+  }
 }
 
 function closeModal() {
   document.getElementById('event-modal').style.display = 'none';
   editingId = null;
+}
+
+// ── API URL 저장 ──────────────────────────────────
+function saveApiUrl() {
+  const url = (document.getElementById('settings-api-url') || {}).value || '';
+  if (!url.trim()) { alert('URL을 입력해주세요'); return; }
+  API_URL = url.trim();
+  localStorage.setItem('epx_api_url', API_URL);
+  loadEventsFromSheet();
+  alert('저장됐어요! 시트 데이터를 불러오는 중...');
+}
+
+// ── 자동 새로고침 ─────────────────────────────────
+function startAutoRefresh(min) {
+  if (refreshTimer) clearInterval(refreshTimer);
+  if (min > 0) refreshTimer = setInterval(loadEventsFromSheet, min * 60 * 1000);
 }
 
 // 초기화
@@ -876,6 +971,14 @@ const _gd = document.getElementById('greeting-date');
 if (_gd) _gd.textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}) + ' · 에듀플렉스 대치점';
 initManager();
 renderCalendar();
+
+// 저장된 API URL 자동 로드
+if (API_URL) {
+  const inp = document.getElementById('settings-api-url');
+  if (inp) inp.value = API_URL;
+  loadEventsFromSheet();
+  startAutoRefresh(1);
+}
 
 // ── 학생 데이터 ──
 const students = [
