@@ -138,16 +138,16 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
   <div class="sb-label">운영 파일</div>
   <div class="nav" onclick="go('ops',this)"><span class="nav-dot" style="background:var(--c2)"></span>일정·운영</div>
-  <div class="nav" onclick="go('visit',this)"><span class="nav-dot" style="background:var(--c3)"></span>학부모 상담</div>
+  <div class="nav" onclick="go('visit',this)"><span class="nav-dot" style="background:var(--c3)"></span>등록상담 일정</div>
   <div class="nav" onclick="go('indiv',this)"><span class="nav-dot" style="background:var(--c4)"></span>개별지도</div>
-  <div class="nav" onclick="go('dc',this)"><span class="nav-dot" style="background:var(--c5)"></span>DC 코치</div>
+  <div class="nav" onclick="go('dc',this)"><span class="nav-dot" style="background:var(--c5)"></span>데일리체크</div>
 
   <div class="sb-label">학생</div>
   <div class="nav" onclick="go('students',this)"><span class="nav-dot" style="background:var(--c6)"></span>단관표</div>
   <div class="nav" onclick="go('managers',this)"><span class="nav-dot" style="background:var(--c7)"></span>매니저별 보기</div>
 
-  <div class="sb-label">재무·기록</div>
-  <div class="nav" onclick="go('finance',this)"><span class="nav-dot" style="background:var(--c8)"></span>재무·회비</div>
+  <div class="sb-label">기록</div>
+  <div class="nav" onclick="go('finance',this)"><span class="nav-dot" style="background:var(--c8)"></span>회원관리</div>
   <div class="nav" onclick="go('docs',this)"><span class="nav-dot" style="background:var(--t2)"></span>보고서·회의록</div>
 </div>
 
@@ -160,38 +160,37 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
   </div>
 
   <!-- 지점 일정 캘린더 -->
-  <div class="sec" style="margin-bottom:18px">
-    <div class="sec-title" style="margin-bottom:10px">
-      📅 지점 일정
-      <span style="margin-left:auto;display:flex;gap:6px">
-        <button onclick="changeMonth(-1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:5px;padding:2px 9px;cursor:pointer;font-family:inherit;font-size:11px">‹</button>
-        <span id="cal-month-label" style="font-size:11px;color:var(--txt);font-weight:500;min-width:80px;text-align:center;padding-top:2px"></span>
-        <button onclick="changeMonth(1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:5px;padding:2px 9px;cursor:pointer;font-family:inherit;font-size:11px">›</button>
-        <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:5px;padding:2px 10px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600">+ 일정 추가</button>
-      </span>
+  <div class="sec" style="margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button onclick="changeMonth(-1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);border-radius:7px;padding:5px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600">‹</button>
+        <span id="cal-month-label" style="font-size:18px;font-weight:700;color:var(--txt);min-width:100px;text-align:center"></span>
+        <button onclick="changeMonth(1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);border-radius:7px;padding:5px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600">›</button>
+      </div>
+      <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:7px;padding:7px 16px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">+ 일정 추가</button>
     </div>
 
     <!-- 범례 -->
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FF8C42"></div>개인</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#A78BFA"></div>본사</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#34D399"></div>업무·회의</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#60A5FA"></div>학부모 내방</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FB7185"></div>마감</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#FBBF24"></div>이벤트</div>
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t2)"><div style="width:8px;height:8px;border-radius:2px;background:#F87171"></div>공휴일</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FF8C42"></div>개인</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#A78BFA"></div>본사</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#34D399"></div>업무·회의</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#60A5FA"></div>내방</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FB7185"></div>마감</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FBBF24"></div>이벤트</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#F87171"></div>공휴일</div>
     </div>
 
     <!-- 캘린더 그리드 -->
-    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:10px;overflow:hidden">
-      <div style="display:grid;grid-template-columns:repeat(7,1fr);background:var(--s2)">
-        <div style="padding:7px;text-align:center;font-size:10px;color:#f87171;font-weight:500">일</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">월</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">화</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">수</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">목</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:var(--t2);font-weight:500">금</div>
-        <div style="padding:7px;text-align:center;font-size:10px;color:#60a5fa;font-weight:500">토</div>
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);background:var(--s2);border-bottom:1px solid var(--line2)">
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:#f87171;font-weight:600">일</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">월</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">화</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">수</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">목</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">금</div>
+        <div style="padding:10px 6px;text-align:center;font-size:13px;color:#60a5fa;font-weight:600">토</div>
       </div>
       <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr)"></div>
     </div>
@@ -199,11 +198,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
   <!-- 일정 추가 모달 -->
   <div id="event-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center">
-    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;padding:20px;width:340px;max-width:90vw">
-      <div style="font-size:14px;font-weight:700;margin-bottom:14px" id="modal-title">일정 추가</div>
-      <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:8px;outline:none">
-      <input id="ev-text" type="text" placeholder="일정 내용" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:8px;outline:none">
-      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;color:var(--txt);font-size:12px;font-family:inherit;margin-bottom:14px;outline:none">
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:14px;padding:24px;width:360px;max-width:90vw">
+      <div style="font-size:16px;font-weight:700;margin-bottom:16px" id="modal-title">일정 추가</div>
+      <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none">
+      <input id="ev-text" type="text" placeholder="일정 내용" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none">
+      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:16px;outline:none">
         <option value="ops">업무·회의</option>
         <option value="deadline">마감</option>
         <option value="visit">학부모 내방</option>
@@ -212,176 +211,108 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
         <option value="event">이벤트·행사</option>
         <option value="holiday">공휴일</option>
       </select>
-      <div style="display:flex;gap:8px">
-        <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600">저장</button>
-        <button onclick="closeModal()" style="flex:1;background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px">취소</button>
+      <div style="display:flex;gap:10px">
+        <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">저장</button>
+        <button onclick="closeModal()" style="flex:1;background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px">취소</button>
       </div>
-      <div id="modal-delete-btn" style="display:none;margin-top:8px">
-        <button onclick="deleteEvent()" style="width:100%;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:6px;padding:8px;cursor:pointer;font-family:inherit;font-size:12px">이 일정 삭제</button>
+      <div id="modal-delete-btn" style="display:none;margin-top:10px">
+        <button onclick="deleteEvent()" style="width:100%;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px">이 일정 삭제</button>
       </div>
     </div>
   </div>
 
-  <div class="ov-grid">
-    <div class="ov-card" onclick="go('students',document.querySelector('.nav:nth-of-type(6)'))">
-      <div class="ov-label">관리 학생</div>
-      <div class="ov-val" style="color:var(--c6)">100+</div>
-      <div class="ov-sub">1관 · 2관 전체</div>
+  <!-- 자주 쓰는 파일 (매니저별 개인화) -->
+  <div class="sec">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="sec-title" style="margin-bottom:0;flex:1">⚡ 자주 쓰는 파일</div>
+      <div id="cur-manager-badge" style="font-size:11px;color:var(--t2);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:3px 9px;cursor:pointer" onclick="resetManager()">이름 변경</div>
     </div>
-    <div class="ov-card" onclick="go('ops',document.querySelector('.nav:nth-of-type(3)'))">
-      <div class="ov-label">운영 파일</div>
-      <div class="ov-val" style="color:var(--c2)">12</div>
-      <div class="ov-sub">일정·상담·시간표</div>
-    </div>
-    <div class="ov-card" onclick="go('indiv',document.querySelector('.nav:nth-of-type(5)'))">
-      <div class="ov-label">개별지도 파일</div>
-      <div class="ov-val" style="color:var(--c4)">6</div>
-      <div class="ov-sub">시간표·DB·순회</div>
-    </div>
-    <div class="ov-card" onclick="go('finance',document.querySelector('.nav:nth-of-type(8)'))">
-      <div class="ov-label">재무 파일</div>
-      <div class="ov-val" style="color:var(--c8)">4</div>
-      <div class="ov-sub">장부·회비내역</div>
-    </div>
+    <div id="quick-files-grid" class="quick-grid"></div>
   </div>
 
   <div class="sec">
-    <div class="sec-title">⚡ 자주 쓰는 파일 빠른 접근</div>
-    <div class="quick-grid">
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1eLBXjviF8LT2iisBbgzd9aWbuhx9BDnJ-uiQVvKFMXo/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📅</div>
-        <div><div class="qcard-name">대치점 일정표</div><div class="qcard-desc">월별 일정 · 본관·2관</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/18IGGdJpiV-YP-DK2rwZQEpVErlWK5U0NEQ5ueJPc_HU/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
-        <div><div class="qcard-name">1관 상담예약시트</div><div class="qcard-desc">학부모 내방 기록</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/15_W2fioOYUait3G4AVVTE0S54eHyIPAWyqBGmwu_s8o/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
-        <div><div class="qcard-name">2관 상담예약시트</div><div class="qcard-desc">2관 내방 기록</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1o01QDma1CaFKwFvS8mI5_xwUg8VBpOuve-F3uW7VY8A/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📋</div>
-        <div><div class="qcard-name">1관 관리 페이지</div><div class="qcard-desc">매니저·학생·링크 허브</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1UN-xYv-ZGXwFPZyiF8FJ4Q5c69GRFpPr-959XZzr9ZM/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">⏰</div>
-        <div><div class="qcard-name">2026 개별지도 시간표</div><div class="qcard-desc">전체 시간표</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1t7iS56XbhoG5rGfvBVkFKEsdfT-Ph_-8lfjcofDPoRY/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📊</div>
-        <div><div class="qcard-name">일일시간표</div><div class="qcard-desc">DC 개별지도 일일</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1gTHj0heYZL9hxWL6Yh-9bKmKiA9d27vT_tWR8GmuSvU/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">📈</div>
-        <div><div class="qcard-name">개별지도 주간현황</div><div class="qcard-desc">1관 주간 현황</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1HOJDYIzfwuhgfmRfRw8sqMRw_SHvyDmbTmcOxk3oyLM/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">🔄</div>
-        <div><div class="qcard-name">학습실 순회시트</div><div class="qcard-desc">순회 기록</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1LIBTJWfIA3SO7Gmq3DaFNnwPI7YzgX-xwDMngUTx328/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">👨‍🏫</div>
-        <div><div class="qcard-name">DC 코치 스케줄</div><div class="qcard-desc">근무 스케줄 게시용</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1arN4-Sq5FQSQXBXfLTSBmMYQmSiHQerZCEIXyvPosjw/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">💰</div>
-        <div><div class="qcard-name">2026년 회원 장부</div><div class="qcard-desc">재무</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1R-DP-YygmAVPCuD2hqK5fWAUifU-68nvxm2lEMPuopg/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(62,207,142,.15);color:var(--c1)">📆</div>
-        <div><div class="qcard-name">주말 관리 양식</div><div class="qcard-desc">매주 금요일 확인</div></div>
-      </a>
-      <a class="qcard" href="https://docs.google.com/spreadsheets/d/1tQFgaOtt_blIkA_pyq4cKh1yfczBjX53ygVHi7BkNtk/edit" target="_blank">
-        <div class="qcard-ic" style="background:rgba(167,139,250,.15);color:var(--c4)">👨‍🏫</div>
-        <div><div class="qcard-name">튜터 DB</div><div class="qcard-desc">튜터 데이터베이스</div></div>
-      </a>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-title">📁 폴더 카테고리</div>
+    <div class="sec-title">📁 대치 공유 폴더 — 전체 카테고리</div>
     <div class="fgrid">
-      <div class="fcard" onclick="go('students',document.querySelectorAll('.nav')[5])">
+      <a class="fcard" href="https://drive.google.com/drive/folders/1N4MCAUirvaEvdHiuK4z6FYQ8bdG-InQu" target="_blank">
         <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">👤</div>
-        <div class="fcard-body"><div class="fcard-name">개별지도관리</div><div class="fcard-meta">매니저별 학생 개별 파일 100+</div></div>
-      </div>
-      <div class="fcard" onclick="go('indiv',document.querySelectorAll('.nav')[4])">
+        <div class="fcard-body"><div class="fcard-name">개별지도관리</div><div class="fcard-meta">매니저별 학생 파일</div></div>
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1UsdnMDrONvgWoqPekC8zCe7RXcxJ6o5l" target="_blank">
         <div class="fcard-ic" style="background:rgba(167,139,250,.12);color:var(--c4)">📖</div>
         <div class="fcard-body"><div class="fcard-name">교재분석</div><div class="fcard-meta">교재 분석 자료</div></div>
-      </div>
-      <div class="fcard" onclick="go('students',document.querySelectorAll('.nav')[5])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1wX2Q70Esij_616xUTI3yoNJe7ZaMKsAv" target="_blank">
         <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📂</div>
         <div class="fcard-body"><div class="fcard-name">대치_학생관리</div><div class="fcard-meta">학생 데이터 종합</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1ihL9QJ3CEyMtDQj5OeyzpsKBZkQyOC5i" target="_blank">
         <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">☀️</div>
         <div class="fcard-body"><div class="fcard-name">방학관리</div><div class="fcard-meta">썸머·윈터 프로그램</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1PN-vTJ5AmHlNXI7cJUMA5ItiisF9qkpg" target="_blank">
         <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">📄</div>
         <div class="fcard-body"><div class="fcard-name">서류 양식 공유</div><div class="fcard-meta">공용 양식 모음</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1-BgrlId3pNJpY6m1WGtXTEMlVES74DJQ" target="_blank">
         <div class="fcard-ic" style="background:rgba(232,121,249,.12);color:var(--c8)">📊</div>
         <div class="fcard-body"><div class="fcard-name">성적관리</div><div class="fcard-meta">성적 추이 관리</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/129QW3AopZG-97oFn67hY9K82ok7kWm2S" target="_blank">
         <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">📝</div>
         <div class="fcard-body"><div class="fcard-name">시험 대비 자료</div><div class="fcard-meta">모의고사·문제지</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1U6HuCHbPfMyKJfcOlEKu9lsCKFY9Oxvj" target="_blank">
         <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">🚦</div>
         <div class="fcard-body"><div class="fcard-name">신호등 회의</div><div class="fcard-meta">정기 회의 기록</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1L_ewTWqQ0_dwGcwLLd5F98f4jfaMqMQ0" target="_blank">
         <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">📋</div>
         <div class="fcard-body"><div class="fcard-name">월간 보고 양식</div><div class="fcard-meta">월간 보고서 양식</div></div>
-      </div>
-      <div class="fcard" onclick="go('ops',document.querySelectorAll('.nav')[2])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1-vCRWxUHWuv--1N2cG2j_XZ_qgfvGdCA" target="_blank">
         <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">📅</div>
         <div class="fcard-body"><div class="fcard-name">일정</div><div class="fcard-meta">지점 일정표</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1Is3Jhg1tJWowPj43BCumQL3m-ejGQVH_" target="_blank">
         <div class="fcard-ic" style="background:rgba(167,139,250,.12);color:var(--c4)">🎯</div>
         <div class="fcard-body"><div class="fcard-name">전략보고서</div><div class="fcard-meta">매니저별 전략 보고서</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1kuyMj0M9eOi3opuvCMLbmU7WBglMgdsh" target="_blank">
         <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">📊</div>
-        <div class="fcard-body"><div class="fcard-name">주간/팀/포트</div><div class="fcard-meta">주간보고·팀관리</div></div>
-      </div>
-      <div class="fcard">
+        <div class="fcard-body"><div class="fcard-name">주간/텀/포트</div><div class="fcard-meta">주간보고·팀관리</div></div>
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1nPqq7sALL8l7G63X1D06ank9s-kvMgkF" target="_blank">
         <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">🏫</div>
         <div class="fcard-body"><div class="fcard-name">지점 스터디</div><div class="fcard-meta">스터디 자료</div></div>
-      </div>
-      <div class="fcard" onclick="go('ops',document.querySelectorAll('.nav')[2])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1y6QZdJgGcocfcivadpqtfKxkqb4WPxtZ" target="_blank">
         <div class="fcard-ic" style="background:rgba(62,207,142,.12);color:var(--c1)">⚙️</div>
         <div class="fcard-body"><div class="fcard-name">지점운영</div><div class="fcard-meta">운영 관리</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1xONjWk01Eud9ndfCgdLOi1kQqtoCxQAN" target="_blank">
         <div class="fcard-ic" style="background:rgba(245,158,11,.12);color:var(--c3)">🏫</div>
         <div class="fcard-body"><div class="fcard-name">학교분석</div><div class="fcard-meta">학교별 데이터</div></div>
-      </div>
-      <div class="fcard" onclick="go('visit',document.querySelectorAll('.nav')[3])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1MfYfzYEgkbi_8OfR5WD-p0DSMxv1pT6-" target="_blank">
         <div class="fcard-ic" style="background:rgba(96,165,250,.12);color:var(--c2)">👨‍👩‍👧</div>
         <div class="fcard-body"><div class="fcard-name">학부모관리</div><div class="fcard-meta">학부모 데이터</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1hoQH7HyDM-lZc1nJ1mHGmkKLWLW21Mvd" target="_blank">
         <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📈</div>
         <div class="fcard-body"><div class="fcard-name">학생관리현황</div><div class="fcard-meta">현황 종합</div></div>
-      </div>
-      <div class="fcard">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1e9knOlfz-3B6pf3MjcsdxjP6ab-coB72" target="_blank">
         <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">📚</div>
         <div class="fcard-body"><div class="fcard-name">학습관리</div><div class="fcard-meta">학습 데이터</div></div>
-      </div>
-      <div class="fcard" onclick="go('docs',document.querySelectorAll('.nav')[8])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1G2INkqp3M4bARo9sEDDqV5tDPq1dfQTS" target="_blank">
         <div class="fcard-ic" style="background:rgba(136,135,128,.12);color:var(--t2)">📝</div>
         <div class="fcard-body"><div class="fcard-name">회의록</div><div class="fcard-meta">회의 기록</div></div>
-      </div>
-      <div class="fcard" onclick="go('dc',document.querySelectorAll('.nav')[5])">
+      </a>
+      <a class="fcard" href="https://drive.google.com/drive/folders/1mFe5141mPl-ou9krhTSASXUGfCnAO8Kz" target="_blank">
         <div class="fcard-ic" style="background:rgba(248,113,113,.12);color:var(--c5)">👨‍🏫</div>
-        <div class="fcard-body"><div class="fcard-name">DC 코치 관리</div><div class="fcard-meta">코치 관리 파일</div></div>
-      </div>
+        <div class="fcard-body"><div class="fcard-name">데일리체크 관리</div><div class="fcard-meta">코치 관리 파일</div></div>
+      </a>
     </div>
   </div>
 </div>
@@ -437,9 +368,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
   </div></div>
 </div>
 
-<!-- ══ 학부모 상담 ══ -->
+<!-- ══ 등록상담 일정 ══ -->
 <div id="p-visit" class="page">
-  <div class="ph"><div><div class="pt">학부모 상담·내방</div><div class="ps">상담 예약 · 내방 기록 · 관리</div></div></div>
+  <div class="ph"><div><div class="pt">등록상담 일정·내방</div><div class="ps">상담 예약 · 내방 기록</div></div></div>
   <div class="fgrid">
     <a class="fcard" href="https://docs.google.com/spreadsheets/d/18IGGdJpiV-YP-DK2rwZQEpVErlWK5U0NEQ5ueJPc_HU/edit" target="_blank">
       <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
@@ -448,10 +379,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
     <a class="fcard" href="https://docs.google.com/spreadsheets/d/15_W2fioOYUait3G4AVVTE0S54eHyIPAWyqBGmwu_s8o/edit" target="_blank">
       <div class="fcard-ic" style="background:rgba(96,165,250,.15);color:var(--c2)">👩</div>
       <div class="fcard-body"><div class="fcard-name">대치2관_상담예약시트</div><div class="fcard-meta">2관 학부모 내방 기록</div><span class="fcard-badge" style="background:rgba(96,165,250,.15);color:var(--c2)">핵심</span></div>
-    </a>
-    <a class="fcard" href="https://docs.google.com/spreadsheets/d/11XbqlZxZUBqpdLMdtdRYNUXNFzdJSyLXxBv7ZUGHz9c/edit" target="_blank">
-      <div class="fcard-ic" style="background:rgba(245,158,11,.15);color:var(--c3)">📋</div>
-      <div class="fcard-body"><div class="fcard-name">상담관리 시트</div><div class="fcard-meta">학부모 상담 관리</div></div>
     </a>
   </div>
 </div>
@@ -517,7 +444,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
 <!-- ══ DC코치 ══ -->
 <div id="p-dc" class="page">
-  <div class="ph"><div><div class="pt">DC 코치 관리</div><div class="ps">DC 코치 스케줄 · 테이블 · 운영</div></div></div>
+  <div class="ph"><div><div class="pt">데일리체크 관리</div><div class="ps">데일리체크 스케줄 · 테이블 · 운영</div></div></div>
   <div class="fgrid">
     <a class="fcard" href="https://docs.google.com/spreadsheets/d/1LIBTJWfIA3SO7Gmq3DaFNnwPI7YzgX-xwDMngUTx328/edit" target="_blank">
       <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">📅</div>
@@ -525,7 +452,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
     </a>
     <a class="fcard" href="https://docs.google.com/spreadsheets/d/1n-PQKN58YLmokDnb_7YqI8onoA3Kx3H5Oo8UHEAS56Q/edit" target="_blank">
       <div class="fcard-ic" style="background:rgba(248,113,113,.15);color:var(--c5)">🗂️</div>
-      <div class="fcard-body"><div class="fcard-name">DC테이블</div><div class="fcard-meta">DC 코치 테이블</div></div>
+      <div class="fcard-body"><div class="fcard-name">DC테이블</div><div class="fcard-meta">데일리체크 테이블</div></div>
     </a>
   </div>
 </div>
@@ -564,7 +491,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
 <!-- ══ 재무 ══ -->
 <div id="p-finance" class="page">
-  <div class="ph"><div><div class="pt">재무·회비</div><div class="ps">장부 · 회비 내역</div></div></div>
+  <div class="ph"><div><div class="pt">회원관리</div><div class="ps">장부 · 회비 내역</div></div></div>
   <div class="fgrid">
     <a class="fcard" href="https://docs.google.com/spreadsheets/d/1arN4-Sq5FQSQXBXfLTSBmMYQmSiHQerZCEIXyvPosjw/edit" target="_blank">
       <div class="fcard-ic" style="background:rgba(232,121,249,.15);color:var(--c8)">💰</div>
@@ -624,10 +551,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 </div><!-- app -->
 
 <script>
-// ── 날짜 ──
-document.getElementById('date-chip').textContent =
-  new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
-
 // ── 네비게이션 ──
 function go(id, el) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
@@ -635,6 +558,250 @@ function go(id, el) {
   document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
   if(el) el.classList.add('on');
 }
+
+// ── 매니저 설정 ──────────────────────────────────
+const MANAGERS = ['김준수P','이영주P','강효민VP','이준호M','강지혜M','김찬호M','권승모M','김하선M','성예린M','안성균M','윤지희M','이상배M','이영주M','이지영M','정승인M','조효근M','박가현M'];
+
+// 매니저별 자주 쓰는 파일
+const MANAGER_FILES = {
+  '공통': [
+    {name:'학습실 순회시트', url:'https://docs.google.com/spreadsheets/d/1HOJDYIzfwuhgfmRfRw8sqMRw_SHvyDmbTmcOxk3oyLM/edit', ic:'📋', c:'var(--c1)'},
+    {name:'학부모 내방 체크', url:'https://docs.google.com/spreadsheets/d/1St-MP0htU9i1WSOWuiyvMYBrrsnnGmFxEEIkQT7FwGA/edit', ic:'👩', c:'var(--c2)'},
+    {name:'MBTI/MMTIC 채점', url:'https://docs.google.com/spreadsheets/d/1E-Vq5dQGQM7ZprDyyE2hNZwq0RMBt06VMgYBZIuBXDo/edit', ic:'🧠', c:'var(--c5)'},
+    {name:'1관 외출일지', url:'https://docs.google.com/spreadsheets/d/16KxS-_UsZa3Gvs2psMaRxBbXzKQ0O2OmCaklFWESxpc/edit', ic:'🚪', c:'var(--c6)'},
+  ],
+  '김준수P': [
+    {name:'부원장 면담 관리', url:'https://docs.google.com/spreadsheets/d/1hocU4sa7G1FDHSVQv0HkPU0KCV7_TG6uLoxJtCTy6qA/edit', ic:'💬', c:'var(--c3)'},
+    {name:'상담시간표 자동생성기', url:'https://docs.google.com/spreadsheets/d/1kmU_kac_udMFgQJhEYbciHsnMzWVnH3jYWgmnhcYOdw/edit', ic:'⏰', c:'var(--c4)'},
+  ],
+  '이영주P': [
+    {name:'부원장 면담 관리', url:'https://docs.google.com/spreadsheets/d/1hocU4sa7G1FDHSVQv0HkPU0KCV7_TG6uLoxJtCTy6qA/edit', ic:'💬', c:'var(--c3)'},
+    {name:'상담시간표 자동생성기', url:'https://docs.google.com/spreadsheets/d/1kmU_kac_udMFgQJhEYbciHsnMzWVnH3jYWgmnhcYOdw/edit', ic:'⏰', c:'var(--c4)'},
+  ],
+  '강효민VP': [
+    {name:'부원장 면담 관리', url:'https://docs.google.com/spreadsheets/d/1hocU4sa7G1FDHSVQv0HkPU0KCV7_TG6uLoxJtCTy6qA/edit', ic:'💬', c:'var(--c3)'},
+    {name:'상담시간표 자동생성기', url:'https://docs.google.com/spreadsheets/d/1kmU_kac_udMFgQJhEYbciHsnMzWVnH3jYWgmnhcYOdw/edit', ic:'⏰', c:'var(--c4)'},
+  ],
+};
+// 나머지 매니저는 공통 파일만
+
+let currentManager = localStorage.getItem('epx_manager') || '';
+
+function initManager() {
+  if (currentManager) {
+    showManagerView();
+  } else {
+    showManagerSelect();
+  }
+}
+
+function showManagerSelect() {
+  // 온보딩 모달
+  const modal = document.createElement('div');
+  modal.id = 'manager-select-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = `
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:16px;padding:28px;width:400px;max-width:90vw;max-height:80vh;overflow-y:auto">
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">에듀플렉스 대치점 허브</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:20px">본인 이름을 선택하면 자주 쓰는 파일이 맞춤 표시됩니다</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        ${MANAGERS.map(m=>`<button onclick="selectManager('${m}')" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);border-radius:8px;padding:12px 6px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;transition:all .12s" onmouseover="this.style.background='var(--s3)'" onmouseout="this.style.background='var(--s2)'">${m}</button>`).join('')}
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+function selectManager(name) {
+  currentManager = name;
+  localStorage.setItem('epx_manager', name);
+  const modal = document.getElementById('manager-select-modal');
+  if (modal) modal.remove();
+  showManagerView();
+}
+
+function resetManager() {
+  currentManager = '';
+  localStorage.removeItem('epx_manager');
+  showManagerSelect();
+}
+
+function showManagerView() {
+  // 배지 업데이트
+  const badge = document.getElementById('cur-manager-badge');
+  if (badge) badge.textContent = currentManager + ' · 변경';
+  // 상단 인사
+  const sub = document.querySelector('.logo-sub');
+  if (sub) sub.textContent = `${currentManager}님 안녕하세요 👋`;
+  renderQuickFiles();
+}
+
+function renderQuickFiles() {
+  const grid = document.getElementById('quick-files-grid');
+  if (!grid) return;
+  const files = [...(MANAGER_FILES['공통'] || []), ...(MANAGER_FILES[currentManager] || [])];
+  grid.innerHTML = files.map(f=>`
+    <a class="qcard" href="${f.url}" target="_blank">
+      <div class="qcard-ic" style="background:${f.c}22;color:${f.c};width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${f.ic}</div>
+      <div><div class="qcard-name" style="font-size:13px">${f.name}</div></div>
+    </a>`).join('');
+}
+
+// ── 캘린더 ──────────────────────────────────────────
+const TYPE_COLOR = {
+  personal:'#FF8C42', hq:'#A78BFA', ops:'#34D399',
+  visit:'#60A5FA', deadline:'#FB7185', event:'#FBBF24', holiday:'#F87171'
+};
+const TYPE_NAME = {
+  personal:'개인', hq:'본사', ops:'업무', visit:'내방', deadline:'마감', event:'이벤트', holiday:'공휴일'
+};
+
+const DEFAULT_EVENTS = [
+  {id:'d1', date:'2026-05-01', text:'근로자의 날', type:'holiday'},
+  {id:'d2', date:'2026-05-04', text:'지M 연차', type:'personal'},
+  {id:'d3', date:'2026-05-05', text:'어린이날', type:'holiday'},
+  {id:'d4', date:'2026-05-06', text:'신호등 회의 (정기)', type:'ops'},
+  {id:'d5', date:'2026-05-06', text:'선M 예비군훈련', type:'personal'},
+  {id:'d6', date:'2026-05-08', text:'4월 종료 보고서 마감', type:'deadline'},
+  {id:'d7', date:'2026-05-08', text:'개별지도 회의 (내신대비)', type:'ops'},
+  {id:'d8', date:'2026-05-12', text:'지점 마케팅 · 입시 세미나 19:30~', type:'event'},
+  {id:'d9', date:'2026-05-12', text:'오프라인 월례회의', type:'ops'},
+  {id:'d10', date:'2026-05-14', text:'안M HOW TO', type:'personal'},
+  {id:'d11', date:'2026-05-14', text:'학부모 내방상담 마감일', type:'deadline'},
+  {id:'d12', date:'2026-05-19', text:'입시 세미나 (지점 마케팅)', type:'event'},
+  {id:'d13', date:'2026-05-21', text:'신호등 회의', type:'ops'},
+  {id:'d14', date:'2026-05-25', text:'부처님 오신 날 대체 공휴일', type:'holiday'},
+  {id:'d15', date:'2026-05-27', text:'지M · 근M 온보딩2', type:'personal'},
+  {id:'d16', date:'2026-06-04', text:'신호등 회의', type:'ops'},
+  {id:'d17', date:'2026-06-04', text:'6월 모의고사', type:'event'},
+  {id:'d18', date:'2026-06-06', text:'5월 종료 보고서 + 기말고사 전략 보고서 마감', type:'deadline'},
+  {id:'d19', date:'2026-06-11', text:'썸머 프로그램 기획 1차 회의', type:'event'},
+  {id:'d20', date:'2026-06-18', text:'신호등 회의 + 썸머 기획 2차', type:'ops'},
+  {id:'d21', date:'2026-06-26', text:'교재 분석 업로드 마감', type:'deadline'},
+];
+
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let editingId = null;
+
+function getEvents() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('epx_events') || '[]');
+    return [...DEFAULT_EVENTS, ...saved];
+  } catch { return DEFAULT_EVENTS; }
+}
+function getSavedEvents() {
+  try { return JSON.parse(localStorage.getItem('epx_events') || '[]'); } catch { return []; }
+}
+
+function renderCalendar() {
+  const now = new Date();
+  document.getElementById('cal-month-label').textContent = `${calYear}년 ${calMonth + 1}월`;
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const lastDate = new Date(calYear, calMonth + 1, 0).getDate();
+  const events = getEvents();
+  let cells = '';
+
+  for(let i = 0; i < firstDay; i++) {
+    cells += `<div style="min-height:90px;border:1px solid var(--line);background:var(--bg);opacity:.2"></div>`;
+  }
+  for(let d = 1; d <= lastDate; d++) {
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = events.filter(e => e.date === dateStr);
+    const isToday = now.getFullYear()===calYear && now.getMonth()===calMonth && now.getDate()===d;
+    const dow = new Date(calYear, calMonth, d).getDay();
+    const dateColor = isToday ? '#34D399' : (dow===0 ? '#F87171' : dow===6 ? '#60A5FA' : 'var(--t2)');
+
+    cells += `<div style="min-height:90px;border:1px solid var(--line);background:${isToday?'rgba(52,211,153,.06)':'var(--s1)'};padding:6px 5px;${isToday?'border-color:rgba(52,211,153,.35);':''}" onclick="openAddEventOnDate('${dateStr}')">
+      <div style="font-size:13px;font-family:'DM Mono',monospace;color:${dateColor};font-weight:${isToday?'700':'500'};margin-bottom:4px">${isToday?'● ':''}{d}</div>
+      ${dayEvents.slice(0,3).map(e=>`
+        <div onclick="event.stopPropagation();openEditEvent('${e.id}')" style="background:${TYPE_COLOR[e.type]}22;color:${TYPE_COLOR[e.type]};border-left:2px solid ${TYPE_COLOR[e.type]};border-radius:3px;padding:3px 5px;font-size:11px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.3" title="${e.text}">${e.text}</div>
+      `).join('')}
+      ${dayEvents.length > 3 ? `<div style="font-size:10px;color:var(--t3);padding:1px 3px">+${dayEvents.length-3}개 더</div>` : ''}
+    </div>`.replace('{d}', d);
+  }
+  document.getElementById('cal-grid').innerHTML = cells;
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if(calMonth > 11) { calMonth = 0; calYear++; }
+  if(calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function openAddEvent() {
+  editingId = null;
+  const now = new Date();
+  document.getElementById('ev-date').value = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  document.getElementById('ev-text').value = '';
+  document.getElementById('ev-type').value = 'ops';
+  document.getElementById('modal-title').textContent = '일정 추가';
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function openAddEventOnDate(dateStr) {
+  editingId = null;
+  document.getElementById('ev-date').value = dateStr;
+  document.getElementById('ev-text').value = '';
+  document.getElementById('ev-type').value = 'ops';
+  document.getElementById('modal-title').textContent = '일정 추가';
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function openEditEvent(id) {
+  const all = getEvents();
+  const ev = all.find(e => e.id === id);
+  if(!ev) return;
+  const isDefault = id.startsWith('d');
+  editingId = isDefault ? null : id;
+  document.getElementById('ev-date').value = ev.date;
+  document.getElementById('ev-text').value = ev.text;
+  document.getElementById('ev-type').value = ev.type;
+  document.getElementById('modal-title').textContent = isDefault ? '일정 보기' : '일정 수정';
+  document.getElementById('modal-delete-btn').style.display = isDefault ? 'none' : 'block';
+  document.getElementById('event-modal').style.display = 'flex';
+}
+
+function saveEvent() {
+  const date = document.getElementById('ev-date').value;
+  const text = document.getElementById('ev-text').value.trim();
+  const type = document.getElementById('ev-type').value;
+  if(!date || !text) { alert('날짜와 내용을 입력해주세요'); return; }
+  const saved = getSavedEvents();
+  if(editingId) {
+    const idx = saved.findIndex(e => e.id === editingId);
+    if(idx !== -1) saved[idx] = {id: editingId, date, text, type};
+  } else {
+    saved.push({id: 'u' + Date.now(), date, text, type});
+  }
+  localStorage.setItem('epx_events', JSON.stringify(saved));
+  closeModal();
+  renderCalendar();
+}
+
+function deleteEvent() {
+  if(!editingId) return;
+  if(!confirm('이 일정을 삭제할까요?')) return;
+  const saved = getSavedEvents().filter(e => e.id !== editingId);
+  localStorage.setItem('epx_events', JSON.stringify(saved));
+  closeModal();
+  renderCalendar();
+}
+
+function closeModal() {
+  document.getElementById('event-modal').style.display = 'none';
+  editingId = null;
+}
+
+// 초기화
+document.getElementById('date-chip').textContent =
+  new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+initManager();
+renderCalendar();
+renderStudents('all','');
+renderManagers();
 
 // ── 학생 데이터 ──
 const students = [
@@ -806,17 +973,8 @@ function doSearch(q) {
   }
 }
 
-// ── 캘린더 ──────────────────────────────────────────
-const TYPE_COLOR = {
-  personal:'#FF8C42', hq:'#A78BFA', ops:'#34D399',
-  visit:'#60A5FA', deadline:'#FB7185', event:'#FBBF24', holiday:'#F87171'
-};
-const TYPE_NAME = {
-  personal:'개인', hq:'본사', ops:'업무', visit:'내방', deadline:'마감', event:'이벤트', holiday:'공휴일'
-};
-
-// 기본 내장 일정 (드라이브에서 읽어온 5월 일정)
-const DEFAULT_EVENTS = [
+// ── [중복제거됨] ──
+const _UNUSED = [
   {id:'d1', date:'2026-05-01', text:'근로자의 날', type:'holiday'},
   {id:'d2', date:'2026-05-04', text:'지M 연차', type:'personal'},
   {id:'d3', date:'2026-05-05', text:'어린이날', type:'holiday'},
@@ -839,134 +997,7 @@ const DEFAULT_EVENTS = [
   {id:'d20', date:'2026-06-18', text:'신호등 회의 + 썸머 기획 2차', type:'ops'},
   {id:'d21', date:'2026-06-26', text:'교재 분석 업로드 마감', type:'deadline'},
 ];
-
-let calYear = 2026, calMonth = 5; // 0-indexed: 5 = June → 사용 시 +1
-let editingId = null;
-
-function getEvents() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('epx_events') || '[]');
-    return [...DEFAULT_EVENTS, ...saved];
-  } catch { return DEFAULT_EVENTS; }
-}
-function getSavedEvents() {
-  try { return JSON.parse(localStorage.getItem('epx_events') || '[]'); } catch { return []; }
-}
-
-function renderCalendar() {
-  const now = new Date();
-  const label = `${calYear}년 ${calMonth + 1}월`;
-  document.getElementById('cal-month-label').textContent = label;
-
-  const firstDay = new Date(calYear, calMonth, 1).getDay();
-  const lastDate = new Date(calYear, calMonth + 1, 0).getDate();
-  const events = getEvents();
-
-  let cells = '';
-  // 빈 칸
-  for(let i = 0; i < firstDay; i++) {
-    cells += `<div style="min-height:72px;border:1px solid var(--line);background:var(--bg);opacity:.3"></div>`;
-  }
-
-  for(let d = 1; d <= lastDate; d++) {
-    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dayEvents = events.filter(e => e.date === dateStr);
-    const isToday = now.getFullYear()===calYear && now.getMonth()===calMonth && now.getDate()===d;
-    const dow = new Date(calYear, calMonth, d).getDay();
-    const isWeekend = dow === 0 || dow === 6;
-    const dateColor = isToday ? '#34D399' : (dow===0 ? '#F87171' : dow===6 ? '#60A5FA' : 'var(--t3)');
-
-    cells += `<div style="min-height:72px;border:1px solid var(--line);background:${isToday?'rgba(52,211,153,.05)':'var(--s1)'};padding:5px;${isToday?'border-color:rgba(52,211,153,.3);':''}" onclick="openAddEventOnDate('${dateStr}')">
-      <div style="font-size:10px;font-family:'DM Mono',monospace;color:${dateColor};font-weight:${isToday?'700':'400'};margin-bottom:3px">${isToday?'★ ':''}{d}</div>
-      ${dayEvents.slice(0,3).map(e=>`
-        <div onclick="event.stopPropagation();openEditEvent('${e.id}')" style="background:${TYPE_COLOR[e.type]}22;color:${TYPE_COLOR[e.type]};border-left:2px solid ${TYPE_COLOR[e.type]};border-radius:3px;padding:2px 5px;font-size:9px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer" title="${e.text}">${e.text}</div>
-      `).join('')}
-      ${dayEvents.length > 3 ? `<div style="font-size:9px;color:var(--t3)">+${dayEvents.length-3}개</div>` : ''}
-    </div>`.replace('{d}', d);
-  }
-
-  document.getElementById('cal-grid').innerHTML = cells;
-}
-
-function changeMonth(dir) {
-  calMonth += dir;
-  if(calMonth > 11) { calMonth = 0; calYear++; }
-  if(calMonth < 0)  { calMonth = 11; calYear--; }
-  renderCalendar();
-}
-
-function openAddEvent() {
-  editingId = null;
-  const now = new Date();
-  document.getElementById('ev-date').value = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-  document.getElementById('ev-text').value = '';
-  document.getElementById('ev-type').value = 'ops';
-  document.getElementById('modal-title').textContent = '일정 추가';
-  document.getElementById('modal-delete-btn').style.display = 'none';
-  document.getElementById('event-modal').style.display = 'flex';
-}
-
-function openAddEventOnDate(dateStr) {
-  editingId = null;
-  document.getElementById('ev-date').value = dateStr;
-  document.getElementById('ev-text').value = '';
-  document.getElementById('ev-type').value = 'ops';
-  document.getElementById('modal-title').textContent = '일정 추가';
-  document.getElementById('modal-delete-btn').style.display = 'none';
-  document.getElementById('event-modal').style.display = 'flex';
-}
-
-function openEditEvent(id) {
-  const all = getEvents();
-  const ev = all.find(e => e.id === id);
-  if(!ev) return;
-  // 기본 내장 일정은 삭제 불가 (d로 시작)
-  const isDefault = id.startsWith('d');
-  editingId = isDefault ? null : id;
-  document.getElementById('ev-date').value = ev.date;
-  document.getElementById('ev-text').value = ev.text;
-  document.getElementById('ev-type').value = ev.type;
-  document.getElementById('modal-title').textContent = isDefault ? '일정 보기 (기본)' : '일정 수정';
-  document.getElementById('modal-delete-btn').style.display = isDefault ? 'none' : 'block';
-  document.getElementById('event-modal').style.display = 'flex';
-}
-
-function saveEvent() {
-  const date = document.getElementById('ev-date').value;
-  const text = document.getElementById('ev-text').value.trim();
-  const type = document.getElementById('ev-type').value;
-  if(!date || !text) { alert('날짜와 내용을 입력해주세요'); return; }
-
-  const saved = getSavedEvents();
-  if(editingId) {
-    const idx = saved.findIndex(e => e.id === editingId);
-    if(idx !== -1) saved[idx] = {id: editingId, date, text, type};
-  } else {
-    saved.push({id: 'u' + Date.now(), date, text, type});
-  }
-  localStorage.setItem('epx_events', JSON.stringify(saved));
-  closeModal();
-  renderCalendar();
-}
-
-function deleteEvent() {
-  if(!editingId) return;
-  if(!confirm('이 일정을 삭제할까요?')) return;
-  const saved = getSavedEvents().filter(e => e.id !== editingId);
-  localStorage.setItem('epx_events', JSON.stringify(saved));
-  closeModal();
-  renderCalendar();
-}
-
-function closeModal() {
-  document.getElementById('event-modal').style.display = 'none';
-  editingId = null;
-}
-
-// 초기화
-renderCalendar();
-renderStudents('all','');
-renderManagers();
+// ── [초기화는 위에서 완료] ──
 </script>
 </body>
 </html>
