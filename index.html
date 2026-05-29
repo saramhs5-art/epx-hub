@@ -5,13 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EPX 대치점 허브</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=DM+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap');
 :root{
-  --bg:#0d0d10;--s1:#15151b;--s2:#1d1d25;--s3:#25252f;
-  --line:rgba(255,255,255,0.06);--line2:rgba(255,255,255,0.1);
-  --txt:#eee;--t2:#888;--t3:#444;
-  --c1:#3ecf8e;--c2:#60a5fa;--c3:#f59e0b;--c4:#a78bfa;
-  --c5:#f87171;--c6:#34d399;--c7:#fb923c;--c8:#e879f9;
+  --bg:#f5f6f8;--s1:#ffffff;--s2:#f0f1f4;--s3:#e2e4ea;
+  --line:rgba(0,0,0,0.07);--line2:rgba(0,0,0,0.12);
+  --txt:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --c1:#059669;--c2:#2563eb;--c3:#d97706;--c4:#7c3aed;
+  --c5:#dc2626;--c6:#16a34a;--c7:#ea580c;--c8:#9333ea;
+  /* 이벤트 타입 색상 - 진하게 */
+  --ev-personal:#ea580c;
+  --ev-hq:#7c3aed;
+  --ev-ops:#0369a1;
+  --ev-visit:#0891b2;
+  --ev-deadline:#dc2626;
+  --ev-event:#d97706;
+  --ev-holiday:#be123c;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -19,48 +27,48 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 .app{display:flex;flex-direction:column;height:100vh}
 
 /* TOP */
-.top{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--s1);border-bottom:1px solid var(--line2);flex-shrink:0}
-.logo{display:flex;align-items:center;gap:9px}
-.logo-ic{width:28px;height:28px;border-radius:7px;background:var(--c1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:#041a0d;letter-spacing:-.3px}
-.logo-name{font-size:13px;font-weight:700}
+.top{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--s1);border-bottom:1px solid var(--line2);flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ic{width:30px;height:30px;border-radius:8px;background:var(--c1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:#fff;letter-spacing:-.3px}
+.logo-name{font-size:13px;font-weight:700;color:var(--txt)}
 .logo-sub{font-size:10px;color:var(--t3)}
 .top-r{display:flex;align-items:center;gap:8px}
 .search-wrap{position:relative}
-.search{background:var(--s2);border:1px solid var(--line2);border-radius:7px;padding:6px 10px 6px 30px;color:var(--txt);font-size:12px;font-family:inherit;width:220px;outline:none}
-.search:focus{border-color:var(--c1)}
+.search{background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:7px 10px 7px 30px;color:var(--txt);font-size:12px;font-family:inherit;width:220px;outline:none;transition:border .15s}
+.search:focus{border-color:var(--c1);background:var(--s1)}
 .search-ic{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:13px}
-.datechip{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:4px 8px}
+.datechip{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:4px 9px}
 
 /* BODY */
 .body{display:flex;flex:1;overflow:hidden}
 
 /* SIDEBAR */
-.sidebar{width:160px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--line2);padding:10px 0;overflow-y:auto}
-.sb-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:0 12px;margin:10px 0 3px}
-.nav{display:flex;align-items:center;gap:7px;padding:8px 12px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .12s}
+.sidebar{width:168px;flex-shrink:0;background:var(--s1);border-right:1px solid var(--line2);padding:12px 0;overflow-y:auto}
+.sb-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:0 14px;margin:12px 0 3px}
+.nav{display:flex;align-items:center;gap:8px;padding:8px 14px;cursor:pointer;font-size:12px;color:var(--t2);border-left:2px solid transparent;transition:all .12s}
 .nav:hover{color:var(--txt);background:var(--s2)}
-.nav.on{color:var(--c1);border-left-color:var(--c1);background:rgba(62,207,142,.07);font-weight:500}
-.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nav.on{color:var(--c1);border-left-color:var(--c1);background:#f0fdf4;font-weight:600}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
 /* CONTENT */
-.content{flex:1;overflow-y:auto;padding:18px 20px}
+.content{flex:1;overflow-y:auto;padding:20px 24px;background:var(--bg)}
 .page{display:none}.page.on{display:block}
 
 /* PAGE HEADER */
-.ph{margin-bottom:16px;display:flex;align-items:flex-end;justify-content:space-between}
-.pt{font-size:17px;font-weight:700}
-.ps{font-size:11px;color:var(--t3);margin-top:2px}
+.ph{margin-bottom:18px;display:flex;align-items:flex-end;justify-content:space-between}
+.pt{font-size:18px;font-weight:700;color:var(--txt)}
+.ps{font-size:11px;color:var(--t3);margin-top:3px}
 .cnt-badge{font-size:11px;color:var(--t2);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:3px 9px}
 
 /* SECTION */
 .sec{margin-bottom:20px}
-.sec-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:7px}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--line)}
+.sec-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--line2)}
 
 /* FILE GRID */
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
-.fcard{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:11px 13px;cursor:pointer;transition:all .12s;display:flex;align-items:flex-start;gap:10px;text-decoration:none}
-.fcard:hover{border-color:var(--line2);background:var(--s2);transform:translateY(-1px)}
+.fcard{background:var(--s1);border:1px solid var(--line2);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:10px;text-decoration:none}
+.fcard:hover{border-color:#059669;background:var(--s1);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .fcard-ic{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .fcard-body{flex:1;min-width:0}
 .fcard-name{font-size:13px;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -70,7 +78,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 /* STUDENT LIST */
 .student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
 .scard{background:var(--s1);border:1px solid var(--line2);border-radius:8px;padding:9px 11px;cursor:pointer;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all .12s}
-.scard:hover{background:var(--s2);transform:translateY(-1px)}
+.scard:hover{background:var(--s2);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .scard-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .scard-info{flex:1;min-width:0}
 .scard-name{font-size:12px;font-weight:500;color:var(--txt)}
@@ -82,33 +90,46 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 .mcard{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:11px 13px}
 .mcard-head{display:flex;align-items:center;gap:8px;margin-bottom:7px}
 .mcard-dot{width:10px;height:10px;border-radius:50%}
-.mcard-name{font-size:13px;font-weight:600}
+.mcard-name{font-size:13px;font-weight:600;color:var(--txt)}
 .mcard-cnt{font-size:10px;color:var(--t3);margin-left:auto}
 .mcard-students{display:flex;flex-wrap:wrap;gap:3px}
 .ms-chip{font-size:10px;padding:2px 7px;border-radius:4px;cursor:pointer;transition:opacity .1s}
 .ms-chip:hover{opacity:.7}
 
+/* FILTER BUTTONS */
+.filter-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--line2);background:var(--s1);color:var(--t2);font-size:11px;cursor:pointer;font-family:inherit;transition:all .12s}
+.filter-btn:hover{background:var(--s2)}
+.filter-btn.on{background:#f0fdf4;border-color:var(--c1);color:var(--c1);font-weight:600}
+
 /* SCROLLBAR */
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
 
 /* EMPTY */
 .empty{text-align:center;padding:30px;color:var(--t3);font-size:12px}
 
-/* OVERVIEW GRID */
-.ov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.ov-card{background:var(--s1);border:1px solid var(--line2);border-radius:9px;padding:13px 14px;cursor:pointer;transition:all .12s}
-.ov-card:hover{background:var(--s2)}
-.ov-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.ov-val{font-size:24px;font-weight:700;line-height:1;margin-bottom:3px}
-.ov-sub{font-size:10px;color:var(--t2)}
-
 /* QUICK LINKS */
 .quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px}
 .qcard{background:var(--s1);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:8px;transition:all .12s}
-.qcard:hover{background:var(--s2)}
+.qcard:hover{background:var(--s2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .qcard-ic{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .qcard-name{font-size:12px;font-weight:500;color:var(--txt)}
 .qcard-desc{font-size:10px;color:var(--t3);margin-top:1px}
+
+/* 캘린더 이벤트 칩 - 선명하고 크게 */
+.ev-chip{display:block;border-radius:4px;padding:3px 7px;font-size:11.5px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.5;border-left:3px solid}
+.ev-chip.personal{background:#fff3e8;color:#c2410c;border-color:#ea580c}
+.ev-chip.hq{background:#f3f0ff;color:#6d28d9;border-color:#7c3aed}
+.ev-chip.ops{background:#eff6ff;color:#1d4ed8;border-color:#2563eb}
+.ev-chip.visit{background:#e0f7fa;color:#0e7490;border-color:#0891b2}
+.ev-chip.deadline{background:#fff0f0;color:#b91c1c;border-color:#dc2626}
+.ev-chip.event{background:#fffbeb;color:#b45309;border-color:#d97706}
+.ev-chip.holiday{background:#fff0f3;color:#9f1239;border-color:#be123c}
+.ev-chip:hover{filter:brightness(.95)}
+
+/* 범례 칩 */
+.legend-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid}
 </style>
 </head>
 <body>
@@ -155,54 +176,85 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
 <!-- ══ OVERVIEW ══ -->
 <div id="p-overview" class="page on">
-  <div class="ph">
-    <div><div class="pt">전체 허브</div><div class="ps">에듀플렉스 대치점 모든 파일 · 카테고리별 정리</div></div>
+
+  <!-- 헤더 인사 -->
+  <div style="margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--line2)">
+    <div id="greeting-name" style="font-size:24px;font-weight:700;color:var(--txt);margin-bottom:4px;letter-spacing:-.3px">안녕하세요 👋</div>
+    <div style="font-size:14px;color:var(--t2)" id="greeting-date"></div>
   </div>
 
-  <!-- 지점 일정 캘린더 -->
-  <div class="sec" style="margin-bottom:20px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="changeMonth(-1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);border-radius:7px;padding:5px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600">‹</button>
-        <span id="cal-month-label" style="font-size:18px;font-weight:700;color:var(--txt);min-width:100px;text-align:center"></span>
-        <button onclick="changeMonth(1)" style="background:var(--s2);border:1px solid var(--line2);color:var(--txt);border-radius:7px;padding:5px 13px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600">›</button>
+  <!-- 캘린더 + 사이드패널 레이아웃 -->
+  <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;margin-bottom:32px;align-items:start">
+
+    <!-- 왼쪽: 캘린더 -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span id="cal-month-label" style="font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.3px"></span>
+          <div style="display:flex;gap:3px">
+            <button onclick="changeMonth(-1)" style="background:transparent;border:1px solid var(--line2);color:var(--t2);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--t2)'" onmouseout="this.style.borderColor='var(--line2)'">‹</button>
+            <button onclick="changeMonth(1)" style="background:transparent;border:1px solid var(--line2);color:var(--t2);border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--t2)'" onmouseout="this.style.borderColor='var(--line2)'">›</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff3e8;color:#c2410c;border:1px solid #fed7aa">개인</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#f3f0ff;color:#6d28d9;border:1px solid #ddd6fe">본사</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe">업무</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#e0f7fa;color:#0e7490;border:1px solid #a5f3fc">내방</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff0f0;color:#b91c1c;border:1px solid #fecaca">마감</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fffbeb;color:#b45309;border:1px solid #fde68a">행사</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:20px;background:#fff0f3;color:#9f1239;border:1px solid #fecdd3">공휴일</span>
+          </div>
+          <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:6px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700">+ 추가</button>
+        </div>
       </div>
-      <button onclick="openAddEvent()" style="background:var(--c1);border:none;color:#041a0d;border-radius:7px;padding:7px 16px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">+ 일정 추가</button>
+
+        <!-- 캘린더 그리드 -->
+        <div style="border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);background:#f9fafb;border-bottom:2px solid #e5e7eb">
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#dc2626;font-weight:700;letter-spacing:.05em">일</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#374151;font-weight:700;letter-spacing:.05em">월</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#374151;font-weight:700;letter-spacing:.05em">화</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#374151;font-weight:700;letter-spacing:.05em">수</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#374151;font-weight:700;letter-spacing:.05em">목</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#374151;font-weight:700;letter-spacing:.05em">금</div>
+            <div style="padding:12px 0;text-align:center;font-size:12px;color:#1d4ed8;font-weight:700;letter-spacing:.05em">토</div>
+          </div>
+          <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);background:#fff;border-top:1px solid #e5e7eb"></div>
+        </div>
     </div>
 
-    <!-- 범례 -->
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FF8C42"></div>개인</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#A78BFA"></div>본사</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#34D399"></div>업무·회의</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#60A5FA"></div>내방</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FB7185"></div>마감</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#FBBF24"></div>이벤트</div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--t2)"><div style="width:10px;height:10px;border-radius:3px;background:#F87171"></div>공휴일</div>
-    </div>
+    <!-- 오른쪽: 사이드 패널 -->
+    <div style="display:flex;flex-direction:column;gap:14px">
 
-    <!-- 캘린더 그리드 -->
-    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;overflow:hidden">
-      <div style="display:grid;grid-template-columns:repeat(7,1fr);background:var(--s2);border-bottom:1px solid var(--line2)">
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:#f87171;font-weight:600">일</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">월</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">화</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">수</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">목</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:var(--t2);font-weight:600">금</div>
-        <div style="padding:10px 6px;text-align:center;font-size:13px;color:#60a5fa;font-weight:600">토</div>
+      <!-- 자주 쓰는 파일 -->
+      <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:600;color:var(--txt)">자주 쓰는 파일</div>
+          <div id="cur-manager-badge" style="font-size:10px;color:var(--t3);cursor:pointer;padding:2px 7px;border-radius:4px;border:1px solid var(--line)" onclick="resetManager()">변경</div>
+        </div>
+        <div id="quick-files-grid" style="padding:8px"></div>
       </div>
-      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr)"></div>
+
+      <!-- 이번 달 마감 -->
+      <div style="background:var(--s1);border:1px solid var(--line2);border-radius:12px;overflow:hidden">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--txt)">다가오는 마감</div>
+        </div>
+        <div id="deadline-panel" style="padding:8px 12px"></div>
+      </div>
+
     </div>
   </div>
 
   <!-- 일정 추가 모달 -->
-  <div id="event-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center">
-    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:14px;padding:24px;width:360px;max-width:90vw">
-      <div style="font-size:16px;font-weight:700;margin-bottom:16px" id="modal-title">일정 추가</div>
-      <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none">
-      <input id="ev-text" type="text" placeholder="일정 내용" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none">
-      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:16px;outline:none">
+  <div id="event-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(2px)">
+    <div style="background:var(--s1);border:1px solid var(--line2);border-radius:16px;padding:24px;width:380px;max-width:90vw;box-shadow:0 24px 48px rgba(0,0,0,.4)">
+      <div style="font-size:16px;font-weight:700;margin-bottom:20px;color:var(--txt)" id="modal-title">일정 추가</div>
+      <input id="ev-date" type="date" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none;transition:border .12s" onfocus="this.style.borderColor='var(--c1)'" onblur="this.style.borderColor='var(--line2)'">
+      <input id="ev-text" type="text" placeholder="일정 내용을 입력하세요" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:10px;outline:none;transition:border .12s" onfocus="this.style.borderColor='var(--c1)'" onblur="this.style.borderColor='var(--line2)'">
+      <select id="ev-type" style="width:100%;background:var(--s2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;margin-bottom:20px;outline:none">
         <option value="ops">업무·회의</option>
         <option value="deadline">마감</option>
         <option value="visit">학부모 내방</option>
@@ -211,27 +263,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
         <option value="event">이벤트·행사</option>
         <option value="holiday">공휴일</option>
       </select>
-      <div style="display:flex;gap:10px">
-        <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">저장</button>
-        <button onclick="closeModal()" style="flex:1;background:var(--s2);border:1px solid var(--line2);color:var(--t2);border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px">취소</button>
+      <div style="display:flex;gap:8px">
+        <button onclick="saveEvent()" style="flex:1;background:var(--c1);border:none;color:#041a0d;border-radius:8px;padding:11px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700">저장</button>
+        <button onclick="closeModal()" style="flex:1;background:transparent;border:1px solid var(--line2);color:var(--t2);border-radius:8px;padding:11px;cursor:pointer;font-family:inherit;font-size:13px">취소</button>
       </div>
-      <div id="modal-delete-btn" style="display:none;margin-top:10px">
-        <button onclick="deleteEvent()" style="width:100%;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:8px;padding:10px;cursor:pointer;font-family:inherit;font-size:13px">이 일정 삭제</button>
+      <div id="modal-delete-btn" style="display:none;margin-top:8px">
+        <button onclick="deleteEvent()" style="width:100%;background:transparent;border:1px solid rgba(248,113,113,.3);color:#f87171;border-radius:8px;padding:11px;cursor:pointer;font-family:inherit;font-size:13px">삭제</button>
       </div>
     </div>
   </div>
 
-  <!-- 자주 쓰는 파일 (매니저별 개인화) -->
-  <div class="sec">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div class="sec-title" style="margin-bottom:0;flex:1">⚡ 자주 쓰는 파일</div>
-      <div id="cur-manager-badge" style="font-size:11px;color:var(--t2);background:var(--s2);border:1px solid var(--line2);border-radius:5px;padding:3px 9px;cursor:pointer" onclick="resetManager()">이름 변경</div>
+  <div style="margin-top:8px">
+    <div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span>폴더 카테고리</span>
+      <div style="flex:1;height:1px;background:var(--line2)"></div>
+      <a href="https://drive.google.com/drive/folders/1sO48BU1ZvglFVFBvQ6ZAaaj8hBACNXfc" target="_blank" style="font-size:11px;color:var(--t3);text-decoration:none" onmouseover="this.style.color='var(--c1)'" onmouseout="this.style.color='var(--t3)'">드라이브 열기 →</a>
     </div>
-    <div id="quick-files-grid" class="quick-grid"></div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-title">📁 대치 공유 폴더 — 전체 카테고리</div>
     <div class="fgrid">
       <a class="fcard" href="https://drive.google.com/drive/folders/1N4MCAUirvaEvdHiuK4z6FYQ8bdG-InQu" target="_blank">
         <div class="fcard-ic" style="background:rgba(52,211,153,.12);color:var(--c6)">👤</div>
@@ -315,6 +362,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
       </a>
     </div>
   </div>
+
 </div>
 
 <!-- ══ 일정·운영 ══ -->
@@ -466,14 +514,14 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt)
 
   <div id="student-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
     <button class="filter-btn on" onclick="filterManager('all',this)">전체</button>
-    <button class="filter-btn" onclick="filterManager('강효M',this)" style="--mc:var(--c3)">강효M</button>
-    <button class="filter-btn" onclick="filterManager('강지M',this)" style="--mc:#ea4335">강지M</button>
-    <button class="filter-btn" onclick="filterManager('이준M',this)" style="--mc:var(--c6)">이준M</button>
-    <button class="filter-btn" onclick="filterManager('안성M',this)" style="--mc:var(--c4)">안성M</button>
-    <button class="filter-btn" onclick="filterManager('정승M',this)" style="--mc:#FFCCFF;color:#333">정승M</button>
-    <button class="filter-btn" onclick="filterManager('김하M',this)" style="--mc:var(--c2)">김하M</button>
-    <button class="filter-btn" onclick="filterManager('윤지M',this)" style="--mc:var(--c1)">윤지M</button>
-    <button class="filter-btn" onclick="filterManager('박가M',this)" style="--mc:#05fafa;color:#333">박가M</button>
+    <button class="filter-btn" onclick="filterManager('강효민VP',this)" style="--mc:var(--c3)">강효민VP</button>
+    <button class="filter-btn" onclick="filterManager('강지혜M',this)" style="--mc:#ea4335">강지혜M</button>
+    <button class="filter-btn" onclick="filterManager('이준호M',this)" style="--mc:var(--c6)">이준호M</button>
+    <button class="filter-btn" onclick="filterManager('안성균M',this)" style="--mc:var(--c4)">안성균M</button>
+    <button class="filter-btn" onclick="filterManager('정승인M',this)" style="--mc:#FFCCFF;color:#333">정승인M</button>
+    <button class="filter-btn" onclick="filterManager('김하선M',this)" style="--mc:var(--c2)">김하선M</button>
+    <button class="filter-btn" onclick="filterManager('윤지희M',this)" style="--mc:var(--c1)">윤지희M</button>
+    <button class="filter-btn" onclick="filterManager('박가현M',this)" style="--mc:#05fafa;color:#333">박가현M</button>
     <button class="filter-btn" onclick="filterManager('정규M',this)" style="--mc:#FF00FF;color:#333">정규M</button>
   </div>
   <style>
@@ -626,13 +674,12 @@ function resetManager() {
 }
 
 function showManagerView() {
-  // 배지 업데이트
   const badge = document.getElementById('cur-manager-badge');
   if (badge) badge.textContent = currentManager + ' · 변경';
-  // 상단 인사
-  const sub = document.querySelector('.logo-sub');
-  if (sub) sub.textContent = `${currentManager}님 안녕하세요 👋`;
+  const greet = document.getElementById('greeting-name');
+  if (greet) greet.textContent = currentManager + '님, 안녕하세요 👋';
   renderQuickFiles();
+  renderDeadlinePanel();
 }
 
 function renderQuickFiles() {
@@ -640,10 +687,34 @@ function renderQuickFiles() {
   if (!grid) return;
   const files = [...(MANAGER_FILES['공통'] || []), ...(MANAGER_FILES[currentManager] || [])];
   grid.innerHTML = files.map(f=>`
-    <a class="qcard" href="${f.url}" target="_blank">
-      <div class="qcard-ic" style="background:${f.c}22;color:${f.c};width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${f.ic}</div>
-      <div><div class="qcard-name" style="font-size:13px">${f.name}</div></div>
+    <a href="${f.url}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:7px;text-decoration:none;transition:background .12s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='transparent'">
+      <div style="width:28px;height:28px;border-radius:6px;background:${f.c}18;color:${f.c};display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">${f.ic}</div>
+      <div style="font-size:12px;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name}</div>
     </a>`).join('');
+}
+
+function renderDeadlinePanel() {
+  const el = document.getElementById('deadline-panel');
+  if (!el) return;
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  const deadlines = getEvents()
+    .filter(e => e.type === 'deadline' && e.date >= todayStr)
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
+  if (deadlines.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--t3);padding:10px 4px">다가오는 마감 없음</div>';
+    return;
+  }
+  el.innerHTML = deadlines.map(d => {
+    const dDay = Math.ceil((new Date(d.date) - now) / 86400000);
+    const dLabel = dDay <= 0 ? 'D-day' : `D-${dDay}`;
+    const urgent = dDay <= 3;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid var(--line)">
+      <div style="font-size:12px;color:var(--txt);flex:1;margin-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.text}</div>
+      <div style="font-size:10px;font-weight:700;color:${urgent?'#FB7185':'var(--t2)'};flex-shrink:0;font-family:'DM Mono',monospace">${dLabel}</div>
+    </div>`;
+  }).join('') + '<div style="height:4px"></div>';
 }
 
 // ── 캘린더 ──────────────────────────────────────────
@@ -702,24 +773,27 @@ function renderCalendar() {
   let cells = '';
 
   for(let i = 0; i < firstDay; i++) {
-    cells += `<div style="min-height:90px;border:1px solid var(--line);background:var(--bg);opacity:.2"></div>`;
+    cells += `<div style="min-height:110px;background:#fafafa;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb"></div>`;
   }
   for(let d = 1; d <= lastDate; d++) {
     const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dayEvents = events.filter(e => e.date === dateStr);
     const isToday = now.getFullYear()===calYear && now.getMonth()===calMonth && now.getDate()===d;
     const dow = new Date(calYear, calMonth, d).getDay();
-    const dateColor = isToday ? '#34D399' : (dow===0 ? '#F87171' : dow===6 ? '#60A5FA' : 'var(--t2)');
+    const isSun = dow === 0, isSat = dow === 6;
+    const numColor = isToday ? '#fff' : isSun ? '#dc2626' : isSat ? '#1d4ed8' : '#111827';
+    const numBg = isToday ? '#059669' : 'transparent';
+    const cellBg = isToday ? '#f0fdf4' : '#fff';
+    const cellBorder = isToday ? 'border:1px solid #6ee7b7' : 'border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb';
 
-    cells += `<div style="min-height:90px;border:1px solid var(--line);background:${isToday?'rgba(52,211,153,.06)':'var(--s1)'};padding:6px 5px;${isToday?'border-color:rgba(52,211,153,.35);':''}" onclick="openAddEventOnDate('${dateStr}')">
-      <div style="font-size:13px;font-family:'DM Mono',monospace;color:${dateColor};font-weight:${isToday?'700':'500'};margin-bottom:4px">${isToday?'● ':''}{d}</div>
-      ${dayEvents.slice(0,3).map(e=>`
-        <div onclick="event.stopPropagation();openEditEvent('${e.id}')" style="background:${TYPE_COLOR[e.type]}22;color:${TYPE_COLOR[e.type]};border-left:2px solid ${TYPE_COLOR[e.type]};border-radius:3px;padding:3px 5px;font-size:11px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.3" title="${e.text}">${e.text}</div>
-      `).join('')}
-      ${dayEvents.length > 3 ? `<div style="font-size:10px;color:var(--t3);padding:1px 3px">+${dayEvents.length-3}개 더</div>` : ''}
-    </div>`.replace('{d}', d);
+    cells += `<div style="min-height:110px;${cellBorder};background:${cellBg};padding:8px 7px;cursor:pointer;transition:background .1s" onclick="openAddEventOnDate('${dateStr}')" onmouseover="this.style.background='${isToday?'#f0fdf4':'#f9fafb'}'" onmouseout="this.style.background='${cellBg}'">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:${numBg};font-size:13px;font-weight:${isToday?'700':'500'};color:${numColor};margin-bottom:5px;font-family:'DM Mono',monospace">${d}</div>
+      ${dayEvents.slice(0,3).map(e=>`<div class="ev-chip ${e.type}" onclick="event.stopPropagation();openEditEvent('${e.id}')" title="${e.text}">${e.text}</div>`).join('')}
+      ${dayEvents.length > 3 ? `<div style="font-size:10px;color:#9ca3af;padding:2px 4px;font-weight:600">+${dayEvents.length-3}개 더</div>` : ''}
+    </div>`;
   }
   document.getElementById('cal-grid').innerHTML = cells;
+  renderDeadlinePanel();
 }
 
 function changeMonth(dir) {
@@ -798,119 +872,119 @@ function closeModal() {
 // 초기화
 document.getElementById('date-chip').textContent =
   new Date().toLocaleDateString('ko-KR',{month:'long',day:'numeric',weekday:'short'});
+const _gd = document.getElementById('greeting-date');
+if (_gd) _gd.textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}) + ' · 에듀플렉스 대치점';
 initManager();
 renderCalendar();
-renderStudents('all','');
-renderManagers();
 
 // ── 학생 데이터 ──
 const students = [
   // 강효M (노란색 #fbbc04)
-  {name:'김건우',manager:'강효M',mc:'#fbbc04',school:'양재고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1IvTHvzCRHyGfbfHjdqUVWZTQfuXXI6VjzU4FxgpX2LI/edit'},
-  {name:'서유민',manager:'강효M',mc:'#fbbc04',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1aIKv4eLjK_Hm-JUhrEAJ4kg0mZ9MHh8218SwQHSVT1k/edit'},
-  {name:'윤현희',manager:'강효M',mc:'#fbbc04',school:'풍문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1KJuMTRNPiBlf2YmDw8UQQsITeV-TK_ne_8m4DIYe0J0/edit'},
+  {name:'김건우',manager:'강효민VP',mc:'#fbbc04',school:'양재고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1IvTHvzCRHyGfbfHjdqUVWZTQfuXXI6VjzU4FxgpX2LI/edit'},
+  {name:'서유민',manager:'강효민VP',mc:'#fbbc04',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1aIKv4eLjK_Hm-JUhrEAJ4kg0mZ9MHh8218SwQHSVT1k/edit'},
+  {name:'윤현희',manager:'강효민VP',mc:'#fbbc04',school:'풍문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1KJuMTRNPiBlf2YmDw8UQQsITeV-TK_ne_8m4DIYe0J0/edit'},
   // 강지M (빨강 #ea4335)
-  {name:'김나윤',manager:'강지M',mc:'#ea4335',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1gSXKyITZXXH5hGNnuncuWAju2tuIg4vcvlk2s5k5tvk/edit'},
-  {name:'김수아',manager:'강지M',mc:'#ea4335',school:'서울미고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1zAOhrXZjcFAA_c4YEmPOUtbmUYMxeoYF2Qe1_plkEaI/edit'},
-  {name:'김예찬',manager:'강지M',mc:'#ea4335',school:'단대부중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1JZ4JvoGxjQAbZ15DilaXZIrVAAPm_4AcUVVhtWMjimI/edit'},
-  {name:'김은지',manager:'강지M',mc:'#ea4335',school:'잠실여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1y60VMQxna4VkMEddWKDjoIBPuNith2LBnzyGrvlMdGg/edit'},
-  {name:'김지우',manager:'강지M',mc:'#ea4335',school:'휘문중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1AZd14mpThw87HUapdYYft2d6qWdqp8rwBZ5olSuaivE/edit'},
-  {name:'김효린',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1wiHCP_nHV0gNlnYd1qinF2uyZeRAHv4ZuRHi0a4dxvc/edit'},
-  {name:'박민찬',manager:'강지M',mc:'#ea4335',school:'대치중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1MBF9QdTCmvgly3texGY84_0difO-q4hE1YaGvhuRgm4/edit'},
-  {name:'박준혁',manager:'강지M',mc:'#ea4335',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1XOi4jMUomJquE5xSJcGVG-1WZoRJEQtNkgDUZk68ywg/edit'},
-  {name:'서효민',manager:'강지M',mc:'#ea4335',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/10livZi3GIjCcyh2_J0sgqX3-5os3RYWsZ0XVTT7nTZ8/edit'},
-  {name:'서휘율',manager:'강지M',mc:'#ea4335',school:'언주중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1p49pLpJW-SgU8LdWb2oJe4UU-165pOV_F8vhrw9Ps7c/edit'},
-  {name:'송채민',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AxOTLP-XIRnGZdzQMlUg3GOqwlwXiSfBXNkPeuR565s/edit'},
-  {name:'이도현',manager:'강지M',mc:'#ea4335',school:'휘문중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1L7r5IK6o8gIKVorEzgLYTNz32MO8Oj9Grik4dokH19I/edit'},
-  {name:'이채원',manager:'강지M',mc:'#ea4335',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1iK1LyuGMxjuTInjDiPIL2JA-BLy_JilKoxZE6_VdH-w/edit'},
-  {name:'이하린',manager:'강지M',mc:'#ea4335',school:'진선여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1CIBEXTikfOCsJkqOBoxNRF4q3G53Rp27oyyQ0-XOcBM/edit'},
-  {name:'서민혁',manager:'강지M',mc:'#ea4335',school:'휘문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/10DXY-7KKhuodWndr2tn0-y84XiRxM3MdGQHjBOsgGUw/edit'},
-  {name:'장예원',manager:'강지M',mc:'#ea4335',school:'은광여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1FY7ZdEsoc_OItVrnfB0dRwhee_U--yfmpT9G-UOVzGY/edit'},
-  {name:'전축복',manager:'강지M',mc:'#ea4335',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1EnYao-4KgJ1MIQ6bIyvOZ25NLVkpmkOZ6IGyzYJNDrI/edit'},
-  {name:'정하윤',manager:'강지M',mc:'#ea4335',school:'은성중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1taMlGLchfmPxkeG_GRXD0VwY6v3XXdpm9oI33mhoZhk/edit'},
-  {name:'조원우',manager:'강지M',mc:'#ea4335',school:'개포고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gE4n2-cl4HCPMxAV_n9kD4ar1fpZZmBpOIYGqnF8p_0/edit'},
-  {name:'조윤진',manager:'강지M',mc:'#ea4335',school:'수서중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1FBJOZSBIEr069zFL12ljvddg1TUh32XRYzIKaFgNOo8/edit'},
-  {name:'조은솔',manager:'강지M',mc:'#ea4335',school:'대왕중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1NB0PKA-bbQ1DArzsBJaiicMIEByY0WYIi3LfA-SdEP4/edit'},
-  {name:'최지원',manager:'강지M',mc:'#ea4335',school:'개포고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1omoOw1B1_vNMAzBW6ui1vv0oNEGNQSsJWiEJtSWhpIY/edit'},
+  {name:'김나윤',manager:'강지혜M',mc:'#ea4335',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1gSXKyITZXXH5hGNnuncuWAju2tuIg4vcvlk2s5k5tvk/edit'},
+  {name:'김수아',manager:'강지혜M',mc:'#ea4335',school:'서울미고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1zAOhrXZjcFAA_c4YEmPOUtbmUYMxeoYF2Qe1_plkEaI/edit'},
+  {name:'김예찬',manager:'강지혜M',mc:'#ea4335',school:'단대부중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1JZ4JvoGxjQAbZ15DilaXZIrVAAPm_4AcUVVhtWMjimI/edit'},
+  {name:'김은지',manager:'강지혜M',mc:'#ea4335',school:'잠실여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1y60VMQxna4VkMEddWKDjoIBPuNith2LBnzyGrvlMdGg/edit'},
+  {name:'김지우',manager:'강지혜M',mc:'#ea4335',school:'휘문중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1AZd14mpThw87HUapdYYft2d6qWdqp8rwBZ5olSuaivE/edit'},
+  {name:'김효린',manager:'강지혜M',mc:'#ea4335',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1wiHCP_nHV0gNlnYd1qinF2uyZeRAHv4ZuRHi0a4dxvc/edit'},
+  {name:'박민찬',manager:'강지혜M',mc:'#ea4335',school:'대치중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1MBF9QdTCmvgly3texGY84_0difO-q4hE1YaGvhuRgm4/edit'},
+  {name:'박준혁',manager:'강지혜M',mc:'#ea4335',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1XOi4jMUomJquE5xSJcGVG-1WZoRJEQtNkgDUZk68ywg/edit'},
+  {name:'서효민',manager:'강지혜M',mc:'#ea4335',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/10livZi3GIjCcyh2_J0sgqX3-5os3RYWsZ0XVTT7nTZ8/edit'},
+  {name:'서휘율',manager:'강지혜M',mc:'#ea4335',school:'언주중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1p49pLpJW-SgU8LdWb2oJe4UU-165pOV_F8vhrw9Ps7c/edit'},
+  {name:'송채민',manager:'강지혜M',mc:'#ea4335',school:'경기여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AxOTLP-XIRnGZdzQMlUg3GOqwlwXiSfBXNkPeuR565s/edit'},
+  {name:'이도현',manager:'강지혜M',mc:'#ea4335',school:'휘문중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1L7r5IK6o8gIKVorEzgLYTNz32MO8Oj9Grik4dokH19I/edit'},
+  {name:'이채원',manager:'강지혜M',mc:'#ea4335',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1iK1LyuGMxjuTInjDiPIL2JA-BLy_JilKoxZE6_VdH-w/edit'},
+  {name:'이하린',manager:'강지혜M',mc:'#ea4335',school:'진선여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1CIBEXTikfOCsJkqOBoxNRF4q3G53Rp27oyyQ0-XOcBM/edit'},
+  {name:'서민혁',manager:'강지혜M',mc:'#ea4335',school:'휘문고',grade:'2',url:'https://docs.google.com/spreadsheets/d/10DXY-7KKhuodWndr2tn0-y84XiRxM3MdGQHjBOsgGUw/edit'},
+  {name:'장예원',manager:'강지혜M',mc:'#ea4335',school:'은광여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1FY7ZdEsoc_OItVrnfB0dRwhee_U--yfmpT9G-UOVzGY/edit'},
+  {name:'전축복',manager:'강지혜M',mc:'#ea4335',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1EnYao-4KgJ1MIQ6bIyvOZ25NLVkpmkOZ6IGyzYJNDrI/edit'},
+  {name:'정하윤',manager:'강지혜M',mc:'#ea4335',school:'은성중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1taMlGLchfmPxkeG_GRXD0VwY6v3XXdpm9oI33mhoZhk/edit'},
+  {name:'조원우',manager:'강지혜M',mc:'#ea4335',school:'개포고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gE4n2-cl4HCPMxAV_n9kD4ar1fpZZmBpOIYGqnF8p_0/edit'},
+  {name:'조윤진',manager:'강지혜M',mc:'#ea4335',school:'수서중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1FBJOZSBIEr069zFL12ljvddg1TUh32XRYzIKaFgNOo8/edit'},
+  {name:'조은솔',manager:'강지혜M',mc:'#ea4335',school:'대왕중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1NB0PKA-bbQ1DArzsBJaiicMIEByY0WYIi3LfA-SdEP4/edit'},
+  {name:'최지원',manager:'강지혜M',mc:'#ea4335',school:'개포고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1omoOw1B1_vNMAzBW6ui1vv0oNEGNQSsJWiEJtSWhpIY/edit'},
   // 이준M (#99ff99)
-  {name:'김수아A',manager:'이준M',mc:'#22c55e',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1ErMkje_Fi4kSFLTABKRhQqIX6YGQgelhId3rEb7mvUI/edit'},
-  {name:'김정수',manager:'이준M',mc:'#22c55e',school:'중산고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1lZUmnM1ItEIfqzlVnUYbe_bLj-19l11BviO3IJU9bRg/edit'},
-  {name:'김태오',manager:'이준M',mc:'#22c55e',school:'압구정중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1OzmbI2DkIx-qv_mimcGGNa2Q_Wd6lOuip3-2kBcfWRk/edit'},
-  {name:'백지우',manager:'이준M',mc:'#22c55e',school:'언남고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1J9s0gvZg2RgVVj7NCLY1398UxemlFa-AfxeyZClknfA/edit'},
-  {name:'서현우',manager:'이준M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/13TDSzUwp65FnUvBuivBlgORsRZJmdpOfrzlA52Spq8E/edit'},
-  {name:'신주호',manager:'이준M',mc:'#22c55e',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wu75m7tR1TX9UNGXT3YlVids1NYOZ8HobAUvprbDs24/edit'},
-  {name:'오수빈',manager:'이준M',mc:'#22c55e',school:'중대부고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1DDBdmVTRG9zuaY3bmS195hGfR00f1uZmooPVa1kEfpA/edit'},
-  {name:'윤동은',manager:'이준M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/11hCXHzAeGDNdAB1r43QOKzqj1tCdOWS7E0seH2LONI8/edit'},
-  {name:'이하람',manager:'이준M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1xpbztQTjmJ0d7tBRGN3lIMTSbR23vgLEnKYQ_i5VakA/edit'},
-  {name:'최세민',manager:'이준M',mc:'#22c55e',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1xE128yM8nE9dsiXgFl0EgQvRAjEptP2OYqZIBhiXX1M/edit'},
-  {name:'최지웅',manager:'이준M',mc:'#22c55e',school:'경기고',grade:'3',url:'https://docs.google.com/spreadsheets/d/16HhbFEBdY5BRcZQ-05RHUnRCsyI199QUuiBn38xK5IU/edit'},
-  {name:'허지승',manager:'이준M',mc:'#22c55e',school:'영동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1X2SYg-3rSvSOewqs4dNOSD9Nu0APKrwheumT60nhCGk/edit'},
-  {name:'황인영',manager:'이준M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1mKCktMnWIjBIZcKJrKatKllRpFX38Mdv4LgTym49rVE/edit'},
+  {name:'김수아A',manager:'이준호M',mc:'#22c55e',school:'경기여고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1ErMkje_Fi4kSFLTABKRhQqIX6YGQgelhId3rEb7mvUI/edit'},
+  {name:'김정수',manager:'이준호M',mc:'#22c55e',school:'중산고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1lZUmnM1ItEIfqzlVnUYbe_bLj-19l11BviO3IJU9bRg/edit'},
+  {name:'김태오',manager:'이준호M',mc:'#22c55e',school:'압구정중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1OzmbI2DkIx-qv_mimcGGNa2Q_Wd6lOuip3-2kBcfWRk/edit'},
+  {name:'백지우',manager:'이준호M',mc:'#22c55e',school:'언남고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1J9s0gvZg2RgVVj7NCLY1398UxemlFa-AfxeyZClknfA/edit'},
+  {name:'서현우',manager:'이준호M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/13TDSzUwp65FnUvBuivBlgORsRZJmdpOfrzlA52Spq8E/edit'},
+  {name:'신주호',manager:'이준호M',mc:'#22c55e',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wu75m7tR1TX9UNGXT3YlVids1NYOZ8HobAUvprbDs24/edit'},
+  {name:'오수빈',manager:'이준호M',mc:'#22c55e',school:'중대부고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1DDBdmVTRG9zuaY3bmS195hGfR00f1uZmooPVa1kEfpA/edit'},
+  {name:'윤동은',manager:'이준호M',mc:'#22c55e',school:'중동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/11hCXHzAeGDNdAB1r43QOKzqj1tCdOWS7E0seH2LONI8/edit'},
+  {name:'이하람',manager:'이준호M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1xpbztQTjmJ0d7tBRGN3lIMTSbR23vgLEnKYQ_i5VakA/edit'},
+  {name:'최세민',manager:'이준호M',mc:'#22c55e',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1xE128yM8nE9dsiXgFl0EgQvRAjEptP2OYqZIBhiXX1M/edit'},
+  {name:'최지웅',manager:'이준호M',mc:'#22c55e',school:'경기고',grade:'3',url:'https://docs.google.com/spreadsheets/d/16HhbFEBdY5BRcZQ-05RHUnRCsyI199QUuiBn38xK5IU/edit'},
+  {name:'허지승',manager:'이준호M',mc:'#22c55e',school:'영동고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1X2SYg-3rSvSOewqs4dNOSD9Nu0APKrwheumT60nhCGk/edit'},
+  {name:'황인영',manager:'이준호M',mc:'#22c55e',school:'개포고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1mKCktMnWIjBIZcKJrKatKllRpFX38Mdv4LgTym49rVE/edit'},
   // 안성M (#8A00FF)
-  {name:'강호윤',manager:'안성M',mc:'#8A00FF',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1rTx3YoNSlwv9xy2aj9SIZXBLtJQlAASfeYaeREu-gQg/edit'},
-  {name:'김예서',manager:'안성M',mc:'#8A00FF',school:'압구정고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LoSNEJaBN6nFfUaoBVjLPtaO8aa_mGNPyKg_40OnT04/edit'},
-  {name:'남지원',manager:'안성M',mc:'#8A00FF',school:'대치중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1o5aRbUeSVGzeZ7jbRuRlek08uIe_z0zHav9Dwz7vxC8/edit'},
-  {name:'류예준',manager:'안성M',mc:'#8A00FF',school:'대곡초',grade:'6',url:'https://docs.google.com/spreadsheets/d/1o5lB1HbH3taroPdMi4oGwiRFsw-TGkk2Y3FKKpwbt2Q/edit'},
-  {name:'류제나',manager:'안성M',mc:'#8A00FF',school:'대왕중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1sH_z-ok-bvKQ1gKg8wKaCxkx-5yBmJ6gsS083FUewYk/edit'},
-  {name:'민경한',manager:'안성M',mc:'#8A00FF',school:'단대부고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m1uTL5XqZMNg8dKpzB0K-e2GkzJK6DIFjTTcJWMI-CU/edit'},
-  {name:'박규태',manager:'안성M',mc:'#8A00FF',school:'대청중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1pTivvIigNrfKu7gXjScvWNS2Hupgg828BP3RFa-nG1I/edit'},
-  {name:'박사라',manager:'안성M',mc:'#8A00FF',school:'대청중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1XUgunqLOGyTKk7ymyKR9sbJgq9ant8P0X-6gBRWvreE/edit'},
-  {name:'박시후',manager:'안성M',mc:'#8A00FF',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1h-nnxIRRDohGg1oHfEFtBfscWFC_tW_rX7ZVB4UojLY/edit'},
-  {name:'임은지',manager:'안성M',mc:'#8A00FF',school:'진선여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1dsKUVP-xZgtyDEqnL2WbxsoyJaYFVmPdzrVu4RcatY4/edit'},
-  {name:'정아윤',manager:'안성M',mc:'#8A00FF',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1nOcpXpA3JgTGSBnR104J6kHbIEh3k3DgUeN54n49Jk8/edit'},
-  {name:'채민찬',manager:'안성M',mc:'#8A00FF',school:'개원중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1J-NG4HYX1E7gIo1oSetRRE1zooqctyBUCQKeXTrBfL0/edit'},
-  {name:'황이안',manager:'안성M',mc:'#8A00FF',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1uCESrBe8xB3IPJDcRW_oJSao68VKZLvEQ-isAMhA58Q/edit'},
+  {name:'강호윤',manager:'안성균M',mc:'#8A00FF',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1rTx3YoNSlwv9xy2aj9SIZXBLtJQlAASfeYaeREu-gQg/edit'},
+  {name:'김예서',manager:'안성균M',mc:'#8A00FF',school:'압구정고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LoSNEJaBN6nFfUaoBVjLPtaO8aa_mGNPyKg_40OnT04/edit'},
+  {name:'남지원',manager:'안성균M',mc:'#8A00FF',school:'대치중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1o5aRbUeSVGzeZ7jbRuRlek08uIe_z0zHav9Dwz7vxC8/edit'},
+  {name:'류예준',manager:'안성균M',mc:'#8A00FF',school:'대곡초',grade:'6',url:'https://docs.google.com/spreadsheets/d/1o5lB1HbH3taroPdMi4oGwiRFsw-TGkk2Y3FKKpwbt2Q/edit'},
+  {name:'류제나',manager:'안성균M',mc:'#8A00FF',school:'대왕중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1sH_z-ok-bvKQ1gKg8wKaCxkx-5yBmJ6gsS083FUewYk/edit'},
+  {name:'민경한',manager:'안성균M',mc:'#8A00FF',school:'단대부고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m1uTL5XqZMNg8dKpzB0K-e2GkzJK6DIFjTTcJWMI-CU/edit'},
+  {name:'박규태',manager:'안성균M',mc:'#8A00FF',school:'대청중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1pTivvIigNrfKu7gXjScvWNS2Hupgg828BP3RFa-nG1I/edit'},
+  {name:'박사라',manager:'안성균M',mc:'#8A00FF',school:'대청중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1XUgunqLOGyTKk7ymyKR9sbJgq9ant8P0X-6gBRWvreE/edit'},
+  {name:'박시후',manager:'안성균M',mc:'#8A00FF',school:'도곡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1h-nnxIRRDohGg1oHfEFtBfscWFC_tW_rX7ZVB4UojLY/edit'},
+  {name:'임은지',manager:'안성균M',mc:'#8A00FF',school:'진선여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1dsKUVP-xZgtyDEqnL2WbxsoyJaYFVmPdzrVu4RcatY4/edit'},
+  {name:'정아윤',manager:'안성균M',mc:'#8A00FF',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1nOcpXpA3JgTGSBnR104J6kHbIEh3k3DgUeN54n49Jk8/edit'},
+  {name:'채민찬',manager:'안성균M',mc:'#8A00FF',school:'개원중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1J-NG4HYX1E7gIo1oSetRRE1zooqctyBUCQKeXTrBfL0/edit'},
+  {name:'황이안',manager:'안성균M',mc:'#8A00FF',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1uCESrBe8xB3IPJDcRW_oJSao68VKZLvEQ-isAMhA58Q/edit'},
   // 정승M (#FFCCFF)
-  {name:'고다은',manager:'정승M',mc:'#c084fc',school:'문정고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1-3bFYxLZYHmFCPzysXr0VkoupYKFFBuhlzFb-5kpLa8/edit'},
-  {name:'나준기',manager:'정승M',mc:'#c084fc',school:'영동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PvpwFS4aMZJUhFXtBNPH62xi1kUH1zitrroA-LKatiU/edit'},
-  {name:'노현준',manager:'정승M',mc:'#c084fc',school:'경기고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1K9EV9qNZq9pxBQ4OBOF-mwUAW40coof-UzAx4WdgGYY/edit'},
-  {name:'류제희',manager:'정승M',mc:'#c084fc',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wrSUeQLz60g35Pe5_mFXqzAljzjBD5obEQWz1MV4Ino/edit'},
-  {name:'박노아',manager:'정승M',mc:'#c084fc',school:'대곡초',grade:'5',url:'https://docs.google.com/spreadsheets/d/1fUJ4gjX5ecp675wtMfExd5t32DRPjduegRis0xxKCZE/edit'},
-  {name:'성우찬',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Dus3mCpwVROz8ENtMocOY160F6cCv5HWeGhqeYXcnhE/edit'},
-  {name:'손석호',manager:'정승M',mc:'#c084fc',school:'개포중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1z06dpqfnfqzn0uNgbeuPxxE13qughzN7UEm1kiPbCK4/edit'},
-  {name:'송서원',manager:'정승M',mc:'#c084fc',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1oimePufjeftfnanNWQTOMsCRnTZUEVlhaBKyFOUAtrY/edit'},
-  {name:'송이헌',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1QXvDNMHkIhs3NEUYelSszBWM79ejEYoAUXMzJJw8dac/edit'},
-  {name:'안도현',manager:'정승M',mc:'#c084fc',school:'도곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1fLy4jDol4CBmE8EX1spyLM8VBUoNZSmoI5vGSQTeo1k/edit'},
-  {name:'이언록',manager:'정승M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LaaQ-LCfWSPSo9T1PfwhQElojCN012eR0ozL1DLvccY/edit'},
-  {name:'이예준',manager:'정승M',mc:'#c084fc',school:'보인고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_-I9TujeTUnQYV6sU7y7pU_uWT5-msyRzLMBSck8R6o/edit'},
-  {name:'전윤재',manager:'정승M',mc:'#c084fc',school:'중동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pz8xdGyyelhVo3cP47B8zA4GY2nBJswIK0SuEiqA25k/edit'},
-  {name:'정기윤',manager:'정승M',mc:'#c084fc',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1aSXx-MQ9D2xo2hOVuWvP6VS5McPcnfSiniUDr1jSfrE/edit'},
-  {name:'정은찬',manager:'정승M',mc:'#c084fc',school:'세종고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_wafY12L43qEYn7HMvCidnGcgsXsakFnzEGFS2YRgkk/edit'},
-  {name:'최성민',manager:'정승M',mc:'#c084fc',school:'경기고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pjNGAITzpPX-cuw8ByleXHvlHv21ngX0N82dBobLDJw/edit'},
-  {name:'최준우',manager:'정승M',mc:'#c084fc',school:'성수고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1RAlIk0l_C-aoH9TC81Rk8waDlL4_8CaxObCLsdNuKt0/edit'},
-  {name:'황유준',manager:'정승M',mc:'#c084fc',school:'언남고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1V59k_A5BTIKUPUiKlliFNRALqaSQE61n9WcV7JTvZLM/edit'},
+  {name:'고다은',manager:'정승인M',mc:'#c084fc',school:'문정고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1-3bFYxLZYHmFCPzysXr0VkoupYKFFBuhlzFb-5kpLa8/edit'},
+  {name:'나준기',manager:'정승인M',mc:'#c084fc',school:'영동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PvpwFS4aMZJUhFXtBNPH62xi1kUH1zitrroA-LKatiU/edit'},
+  {name:'노현준',manager:'정승인M',mc:'#c084fc',school:'경기고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1K9EV9qNZq9pxBQ4OBOF-mwUAW40coof-UzAx4WdgGYY/edit'},
+  {name:'류제희',manager:'정승인M',mc:'#c084fc',school:'중대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1wrSUeQLz60g35Pe5_mFXqzAljzjBD5obEQWz1MV4Ino/edit'},
+  {name:'박노아',manager:'정승인M',mc:'#c084fc',school:'대곡초',grade:'5',url:'https://docs.google.com/spreadsheets/d/1fUJ4gjX5ecp675wtMfExd5t32DRPjduegRis0xxKCZE/edit'},
+  {name:'성우찬',manager:'정승인M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Dus3mCpwVROz8ENtMocOY160F6cCv5HWeGhqeYXcnhE/edit'},
+  {name:'손석호',manager:'정승인M',mc:'#c084fc',school:'개포중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1z06dpqfnfqzn0uNgbeuPxxE13qughzN7UEm1kiPbCK4/edit'},
+  {name:'송서원',manager:'정승인M',mc:'#c084fc',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1oimePufjeftfnanNWQTOMsCRnTZUEVlhaBKyFOUAtrY/edit'},
+  {name:'송이헌',manager:'정승인M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1QXvDNMHkIhs3NEUYelSszBWM79ejEYoAUXMzJJw8dac/edit'},
+  {name:'안도현',manager:'정승인M',mc:'#c084fc',school:'도곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1fLy4jDol4CBmE8EX1spyLM8VBUoNZSmoI5vGSQTeo1k/edit'},
+  {name:'이언록',manager:'정승인M',mc:'#c084fc',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1LaaQ-LCfWSPSo9T1PfwhQElojCN012eR0ozL1DLvccY/edit'},
+  {name:'이예준',manager:'정승인M',mc:'#c084fc',school:'보인고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_-I9TujeTUnQYV6sU7y7pU_uWT5-msyRzLMBSck8R6o/edit'},
+  {name:'전윤재',manager:'정승인M',mc:'#c084fc',school:'중동고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pz8xdGyyelhVo3cP47B8zA4GY2nBJswIK0SuEiqA25k/edit'},
+  {name:'정기윤',manager:'정승인M',mc:'#c084fc',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1aSXx-MQ9D2xo2hOVuWvP6VS5McPcnfSiniUDr1jSfrE/edit'},
+  {name:'정은찬',manager:'정승인M',mc:'#c084fc',school:'세종고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1_wafY12L43qEYn7HMvCidnGcgsXsakFnzEGFS2YRgkk/edit'},
+  {name:'최성민',manager:'정승인M',mc:'#c084fc',school:'경기고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1pjNGAITzpPX-cuw8ByleXHvlHv21ngX0N82dBobLDJw/edit'},
+  {name:'최준우',manager:'정승인M',mc:'#c084fc',school:'성수고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1RAlIk0l_C-aoH9TC81Rk8waDlL4_8CaxObCLsdNuKt0/edit'},
+  {name:'황유준',manager:'정승인M',mc:'#c084fc',school:'언남고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1V59k_A5BTIKUPUiKlliFNRALqaSQE61n9WcV7JTvZLM/edit'},
   // 김하M (#3C78D8)
-  {name:'김다인',manager:'김하M',mc:'#3C78D8',school:'숙명여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1APQXIhBG25r1YQry2MYiLn4Y4BdI8ftD7Eic7SsgaDw/edit'},
-  {name:'김민기',manager:'김하M',mc:'#3C78D8',school:'대진디자인고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PIAZJiufVJbfWdw2NNOY6rBFiZTNpyc9Le1WQtpi0qw/edit'},
-  {name:'김유찬',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16Ec772K-E2QoeA5rsIgSUk_gbRZiBeH4vk03FM87-Z8/edit'},
-  {name:'김중서',manager:'김하M',mc:'#3C78D8',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1dfv4NVtZ7TzsuBbhK2czWjMvOIsxfMz4feGotJ5D_qc/edit'},
-  {name:'박지환',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AGwMMeI1u5zTmdcdp57YbRfWrbn-dknz7o3gYZJyT9M/edit'},
-  {name:'박하랑',manager:'김하M',mc:'#3C78D8',school:'중산고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1YtMjvdFqjIgo75toZCXv9I6s2pDfoBx5_gUpcZOlQvY/edit'},
-  {name:'백승주',manager:'김하M',mc:'#3C78D8',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1jM822kJb6aKakEPPjKVYOkTreIWdl9H_WDKubGsuXos/edit'},
-  {name:'윤준호A',manager:'김하M',mc:'#3C78D8',school:'내곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1czYjDo5jdAnwsw0Fr_DLPBwMM8pE-8jAAqYKhGfM-Y0/edit'},
-  {name:'이서우',manager:'김하M',mc:'#3C78D8',school:'보성고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gAYMMefMv6Z24TvPRRKNCBUereAvAFCqNb0jyfqsuz4/edit'},
-  {name:'이준희',manager:'김하M',mc:'#3C78D8',school:'역삼중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1WK9apFvtmzk6SlffohF9sotZyObkdtf3KWpq5_yEp_U/edit'},
-  {name:'전혜림',manager:'김하M',mc:'#3C78D8',school:'은성중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10uPUmqwE85BFTya-0H2VhFm-MbPVIHF1n-MMgES27cA/edit'},
-  {name:'조하은',manager:'김하M',mc:'#3C78D8',school:'대현초',grade:'5',url:'https://docs.google.com/spreadsheets/d/13Eopi4ZmSVXOT9fCOLdeyMr0vIT_5TrwfddTN0nRJWI/edit'},
+  {name:'김다인',manager:'김하선M',mc:'#3C78D8',school:'숙명여고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1APQXIhBG25r1YQry2MYiLn4Y4BdI8ftD7Eic7SsgaDw/edit'},
+  {name:'김민기',manager:'김하선M',mc:'#3C78D8',school:'대진디자인고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1PIAZJiufVJbfWdw2NNOY6rBFiZTNpyc9Le1WQtpi0qw/edit'},
+  {name:'김유찬',manager:'김하선M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16Ec772K-E2QoeA5rsIgSUk_gbRZiBeH4vk03FM87-Z8/edit'},
+  {name:'김중서',manager:'김하선M',mc:'#3C78D8',school:'대명중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1dfv4NVtZ7TzsuBbhK2czWjMvOIsxfMz4feGotJ5D_qc/edit'},
+  {name:'박지환',manager:'김하선M',mc:'#3C78D8',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1AGwMMeI1u5zTmdcdp57YbRfWrbn-dknz7o3gYZJyT9M/edit'},
+  {name:'박하랑',manager:'김하선M',mc:'#3C78D8',school:'중산고',grade:'2',url:'https://docs.google.com/spreadsheets/d/1YtMjvdFqjIgo75toZCXv9I6s2pDfoBx5_gUpcZOlQvY/edit'},
+  {name:'백승주',manager:'김하선M',mc:'#3C78D8',school:'경기여고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1jM822kJb6aKakEPPjKVYOkTreIWdl9H_WDKubGsuXos/edit'},
+  {name:'윤준호A',manager:'김하선M',mc:'#3C78D8',school:'내곡중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1czYjDo5jdAnwsw0Fr_DLPBwMM8pE-8jAAqYKhGfM-Y0/edit'},
+  {name:'이서우',manager:'김하선M',mc:'#3C78D8',school:'보성고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1gAYMMefMv6Z24TvPRRKNCBUereAvAFCqNb0jyfqsuz4/edit'},
+  {name:'이준희',manager:'김하선M',mc:'#3C78D8',school:'역삼중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1WK9apFvtmzk6SlffohF9sotZyObkdtf3KWpq5_yEp_U/edit'},
+  {name:'전혜림',manager:'김하선M',mc:'#3C78D8',school:'은성중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10uPUmqwE85BFTya-0H2VhFm-MbPVIHF1n-MMgES27cA/edit'},
+  {name:'조하은',manager:'김하선M',mc:'#3C78D8',school:'대현초',grade:'5',url:'https://docs.google.com/spreadsheets/d/13Eopi4ZmSVXOT9fCOLdeyMr0vIT_5TrwfddTN0nRJWI/edit'},
   // 윤지M (#00ba1c)
-  {name:'김서은',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1eChHLXta5Koih6F8mECYz0uivqqNzO6QLU030FTmTsc/edit'},
-  {name:'김세은',manager:'윤지M',mc:'#00ba1c',school:'진선여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1_jMppXahN4Fk4DDQeXexAhCF69uo7HvF5J8wlvOR6hY/edit'},
-  {name:'문도현',manager:'윤지M',mc:'#00ba1c',school:'단대부중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Z1PDBMzDaeQB7AQKbiHvIBmF49V2N3E854bMEPyI3RI/edit'},
-  {name:'성이현',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1nW0MF06BdHgvqrl-3JZDFD4TqqNAJqhylA089RrAZls/edit'},
-  {name:'신서진',manager:'윤지M',mc:'#00ba1c',school:'가원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1qpnm54-2Rigm0omanIPC87gm05Aq8nY6d2B6Fkw_Y9s/edit'},
-  {name:'신재은',manager:'윤지M',mc:'#00ba1c',school:'개포중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m9ano-s-og_aho_rLhKnuNHJQ391MZXz8S0jWs5MvBE/edit'},
-  {name:'윤준호',manager:'윤지M',mc:'#00ba1c',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1b8eygBaI8e1lKuissbBq1Ehi5CPgogIlv581pWunrck/edit'},
-  {name:'이도경',manager:'윤지M',mc:'#00ba1c',school:'영동고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1o3vhDfkSehs21IQJYvgRUmZur_bzv8o6hvJKWZMl754/edit'},
-  {name:'장지수',manager:'윤지M',mc:'#00ba1c',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1HVwkLw6OuG5DiBzwvw9yYpFVZh8irWEmWJ11Fh6hp5c/edit'},
-  {name:'장재혁',manager:'윤지M',mc:'#00ba1c',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1cb6dRzGTKdu8mluHuzkhixYGshqELQFKwlPHNSW-5Mw/edit'},
-  {name:'최태준',manager:'윤지M',mc:'#00ba1c',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1klg_PmSxQBeaV44cg7y84oYpi8Ifr5jUPxw8QBN269o/edit'},
+  {name:'김서은',manager:'윤지희M',mc:'#00ba1c',school:'숙명여중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1eChHLXta5Koih6F8mECYz0uivqqNzO6QLU030FTmTsc/edit'},
+  {name:'김세은',manager:'윤지희M',mc:'#00ba1c',school:'진선여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1_jMppXahN4Fk4DDQeXexAhCF69uo7HvF5J8wlvOR6hY/edit'},
+  {name:'문도현',manager:'윤지희M',mc:'#00ba1c',school:'단대부중',grade:'1',url:'https://docs.google.com/spreadsheets/d/1Z1PDBMzDaeQB7AQKbiHvIBmF49V2N3E854bMEPyI3RI/edit'},
+  {name:'성이현',manager:'윤지희M',mc:'#00ba1c',school:'숙명여중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1nW0MF06BdHgvqrl-3JZDFD4TqqNAJqhylA089RrAZls/edit'},
+  {name:'신서진',manager:'윤지희M',mc:'#00ba1c',school:'가원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1qpnm54-2Rigm0omanIPC87gm05Aq8nY6d2B6Fkw_Y9s/edit'},
+  {name:'신재은',manager:'윤지희M',mc:'#00ba1c',school:'개포중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1m9ano-s-og_aho_rLhKnuNHJQ391MZXz8S0jWs5MvBE/edit'},
+  {name:'윤준호',manager:'윤지희M',mc:'#00ba1c',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1b8eygBaI8e1lKuissbBq1Ehi5CPgogIlv581pWunrck/edit'},
+  {name:'이도경',manager:'윤지희M',mc:'#00ba1c',school:'영동고',grade:'3',url:'https://docs.google.com/spreadsheets/d/1o3vhDfkSehs21IQJYvgRUmZur_bzv8o6hvJKWZMl754/edit'},
+  {name:'장지수',manager:'윤지희M',mc:'#00ba1c',school:'숙명여중',grade:'3',url:'https://docs.google.com/spreadsheets/d/1HVwkLw6OuG5DiBzwvw9yYpFVZh8irWEmWJ11Fh6hp5c/edit'},
+  {name:'장재혁',manager:'윤지희M',mc:'#00ba1c',school:'중산고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1cb6dRzGTKdu8mluHuzkhixYGshqELQFKwlPHNSW-5Mw/edit'},
+  {name:'최태준',manager:'윤지희M',mc:'#00ba1c',school:'단대부고',grade:'1',url:'https://docs.google.com/spreadsheets/d/1klg_PmSxQBeaV44cg7y84oYpi8Ifr5jUPxw8QBN269o/edit'},
   // 박가M (#05fafa)
-  {name:'고가온',manager:'박가M',mc:'#05fafa',school:'구룡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/14fJpaoNVBizXEwCuttWOT-lWlOXRcsx_bpr-CUx-RFM/edit'},
-  {name:'김보민',manager:'박가M',mc:'#05fafa',school:'',grade:'',url:'https://docs.google.com/spreadsheets/d/15xNOrcUX8bsLbEzmpo1Ijuayp7wpBIFw3rA7MftzI4o/edit'},
-  {name:'김예준',manager:'박가M',mc:'#05fafa',school:'현대고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16uUWq5yxn83fC35qIB8DEH74rWX9bl1Qq5JrEFCLal0/edit'},
-  {name:'김효린A',manager:'박가M',mc:'#05fafa',school:'역삼중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SatnWJJ_w7odZes2gyUs2PkPUWwTxebj690kHwvpyuY/edit'},
-  {name:'윤태호',manager:'박가M',mc:'#05fafa',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10I7S-VlwwBgK6MdIznqLT1cqft3duFkJULo7gbE5eS8/edit'},
-  {name:'이규호',manager:'박가M',mc:'#05fafa',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SXysuaUHVjKX0S-R1gTKqOFCGIj31RdSuYXbmv4gBpI/edit'},
+  {name:'고가온',manager:'박가현M',mc:'#05fafa',school:'구룡중',grade:'3',url:'https://docs.google.com/spreadsheets/d/14fJpaoNVBizXEwCuttWOT-lWlOXRcsx_bpr-CUx-RFM/edit'},
+  {name:'김보민',manager:'박가현M',mc:'#05fafa',school:'',grade:'',url:'https://docs.google.com/spreadsheets/d/15xNOrcUX8bsLbEzmpo1Ijuayp7wpBIFw3rA7MftzI4o/edit'},
+  {name:'김예준',manager:'박가현M',mc:'#05fafa',school:'현대고',grade:'1',url:'https://docs.google.com/spreadsheets/d/16uUWq5yxn83fC35qIB8DEH74rWX9bl1Qq5JrEFCLal0/edit'},
+  {name:'김효린A',manager:'박가현M',mc:'#05fafa',school:'역삼중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SatnWJJ_w7odZes2gyUs2PkPUWwTxebj690kHwvpyuY/edit'},
+  {name:'윤태호',manager:'박가현M',mc:'#05fafa',school:'개원중',grade:'2',url:'https://docs.google.com/spreadsheets/d/10I7S-VlwwBgK6MdIznqLT1cqft3duFkJULo7gbE5eS8/edit'},
+  {name:'이규호',manager:'박가현M',mc:'#05fafa',school:'대명중',grade:'2',url:'https://docs.google.com/spreadsheets/d/1SXysuaUHVjKX0S-R1gTKqOFCGIj31RdSuYXbmv4gBpI/edit'},
 ];
 
 let currentFilter = 'all';
@@ -973,31 +1047,8 @@ function doSearch(q) {
   }
 }
 
-// ── [중복제거됨] ──
-const _UNUSED = [
-  {id:'d1', date:'2026-05-01', text:'근로자의 날', type:'holiday'},
-  {id:'d2', date:'2026-05-04', text:'지M 연차', type:'personal'},
-  {id:'d3', date:'2026-05-05', text:'어린이날', type:'holiday'},
-  {id:'d4', date:'2026-05-06', text:'신호등 회의 (정기)', type:'ops'},
-  {id:'d5', date:'2026-05-06', text:'선M 예비군훈련', type:'personal'},
-  {id:'d6', date:'2026-05-08', text:'4월 종료 보고서 마감', type:'deadline'},
-  {id:'d7', date:'2026-05-08', text:'개별지도 회의 (내신대비)', type:'ops'},
-  {id:'d8', date:'2026-05-12', text:'지점 마케팅 · 입시 세미나 19:30~', type:'event'},
-  {id:'d9', date:'2026-05-12', text:'오프라인 월례회의', type:'ops'},
-  {id:'d10', date:'2026-05-14', text:'안M HOW TO', type:'personal'},
-  {id:'d11', date:'2026-05-14', text:'학부모 내방상담 마감일', type:'deadline'},
-  {id:'d12', date:'2026-05-19', text:'입시 세미나 (지점 마케팅)', type:'event'},
-  {id:'d13', date:'2026-05-21', text:'신호등 회의', type:'ops'},
-  {id:'d14', date:'2026-05-25', text:'부처님 오신 날 대체 공휴일', type:'holiday'},
-  {id:'d15', date:'2026-05-27', text:'지M · 근M 온보딩2', type:'personal'},
-  {id:'d16', date:'2026-06-04', text:'신호등 회의', type:'ops'},
-  {id:'d17', date:'2026-06-04', text:'6월 모의고사', type:'event'},
-  {id:'d18', date:'2026-06-06', text:'5월 종료 보고서 + 기말고사 전략 보고서 마감', type:'deadline'},
-  {id:'d19', date:'2026-06-11', text:'썸머 프로그램 기획 1차 회의', type:'event'},
-  {id:'d20', date:'2026-06-18', text:'신호등 회의 + 썸머 기획 2차', type:'ops'},
-  {id:'d21', date:'2026-06-26', text:'교재 분석 업로드 마감', type:'deadline'},
-];
-// ── [초기화는 위에서 완료] ──
+renderStudents('all','');
+renderManagers();
 </script>
 </body>
 </html>
